@@ -2,6 +2,8 @@
 
 Controlling robot in real-time over the internet with a video streaming
 
+<!-- TODO: https://wiki.ros.org/web_video_server -->
+
 ## Clonning the repo
 
 This repository contains the Docker Compose setup for both PC and ROSbot. You can clone it to both PC and ROSbot, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
