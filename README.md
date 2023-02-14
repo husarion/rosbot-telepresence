@@ -54,7 +54,7 @@ If you choose to use the VPN option, both your ROSbot and laptop must be connect
 
 > **warning**
 >
-> This is a simple demo where raw image data is being transmitted over the network, and therefore some [DDS-tunning](https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html) need to be done (both on ROSbot and PC):
+> This is a simple demo where raw image data is being transmitted over the network, and therefore some [DDS-tunning](https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html) should be done (both on ROSbot and PC):
 >
 > For configs in LAN:
 > ```bash
