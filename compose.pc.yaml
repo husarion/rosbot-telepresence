@@ -1,0 +1,42 @@
+x-net-config:
+  &net-config
+  network_mode: host
+  ipc: host
+  env_file: net.env
+
+x-gpu-config:
+  &gpu-config
+  runtime: nvidia
+  environment:
+    - DISPLAY=${DISPLAY:?err}
+    - NVIDIA_VISIBLE_DEVICES=all
+    - NVIDIA_DRIVER_CAPABILITIES=all
+
+x-cpu-config:
+  &cpu-config
+  environment:
+    - DISPLAY=${DISPLAY:?err}
+    - LIBGL_ALWAYS_SOFTWARE=1
+
+services:
+
+  # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
+  # "cpu-config" with "gpu-config"
+  interface:
+    image: husarion/image-tools:humble
+    <<: [ *net-config, *gpu-config ]
+    container_name: interface
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    command: ros2 run image_tools showimage --ros-args -p reliability:=best_effort --remap image:=/camera/color/image_raw
+
+  joy2twist:
+    image: husarion/joy2twist:humble
+    <<: *net-config
+    devices:
+      - /dev/input
+    volumes:
+      - ./params/joy2twist.yaml:/params.yaml
+    command: >
+      ros2 launch joy2twist gamepad_controller.launch.py
+        joy2twist_params_file:=/params.yaml

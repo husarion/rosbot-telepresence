@@ -1,0 +1,37 @@
+camera_name : "camera"
+color_width: 320
+color_height: 240
+color_fps: 30
+enable_color: true
+
+# IR camera width/height/FPS
+ir_width: 320 
+ir_height: 240
+ir_fps: 30
+enable_ir: false
+
+# depth camera width/height/FPS
+depth_width: 320
+depth_height: 240
+depth_fps: 30
+enable_depth: false
+
+# open depth to color alignment （hardware alignment）
+depth_align: false
+serial_number: ""
+number_of_devices: 1
+
+color_roi.x : -1
+color_roi.y : -1
+color_roi.width: -1
+color_roi.height: -1
+depth_roi.x : -1
+depth_roi.y : -1
+depth_roi.width: -1
+depth_roi.height: -1
+
+# depth scale times 
+depth_scale : 1
+publish_tf: false
+tf_publish_rate: 10.0
+reconnect_timeout: 6.0

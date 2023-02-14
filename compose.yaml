@@ -1,0 +1,28 @@
+x-net-config:
+  &net-config
+  network_mode: host
+  ipc: host
+  env_file: net.env
+
+services:
+
+  astra:
+    image: husarion/astra:humble
+    <<: *net-config
+    devices:
+      - /dev/bus/usb/
+    volumes:
+      - ./params/astra.yaml:/ros2_ws/install/astra_camera/share/astra_camera/params/astra_mini_params.yaml
+    command: ros2 launch astra_camera astra_mini.launch.py
+
+  rosbot:
+    image: husarion/rosbot:humble
+    <<: *net-config
+    command: ros2 launch rosbot_bringup bringup.launch.py
+
+  microros:
+    image: husarion/micro-ros-agent:humble
+    <<: *net-config
+    devices:
+      - ${SERIAL_PORT:?err}
+    command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000
