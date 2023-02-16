@@ -35,7 +35,3 @@ services:
         --ros-args
         --remap in:=/camera/color/image_raw
         --remap out/${CODEC:-theora}:=/camera/color/image_raw/${CODEC:-theora}
-
-
-
-
