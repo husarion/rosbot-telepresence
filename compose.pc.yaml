@@ -24,9 +24,9 @@ services:
     image: husarion/image-transport:humble
     <<: *net-config
     command: >
-      ros2 run image_transport republish compressed raw
+      ros2 run image_transport republish ${CODEC:-theora} raw
       --ros-args
-      --remap in/compressed:=/camera/color/image_raw/compressed
+      --remap in/${CODEC:-theora}:=/camera/color/image_raw/${CODEC:-theora}
       --remap out:=/camera/my_image_raw
 
   # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
