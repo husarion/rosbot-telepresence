@@ -2,7 +2,7 @@
 
 Controlling robot in real-time over the internet with a video streaming
 
-<!-- TODO: https://wiki.ros.org/web_video_server -->
+![ROSbot ROS2 user interface](docs/teleop.png)
 
 ## Clonning the repo
 
@@ -26,9 +26,11 @@ husarion/rosbot:humble \
 /flash-firmware.py /root/firmware.bin
 ```
 
-## Choosing the Network (DDS) Config
+## Configuration
 
-Edit `net.env` file and uncomment on of the configs:
+### Choosing the Network (DDS) Config
+
+Edit `net.env` file and uncomment one of the available configs:
 
 ```bash
 # =======================================
@@ -52,24 +54,19 @@ RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 
 If you choose to use the VPN option, both your ROSbot and laptop must be connected to the same Husarnet network. Follow the guide [here](https://husarion.com/manuals/rosbot/remote-access/).
 
+### Choosing the video compression
+
+Edit `.env` file and uncomment one of the available configs:
+
+```bash
+# using "compressed" codec from image_transport_plugins
+# CODEC=compressed
+
+# using "theora" codec from image_transport_plugins
+CODEC=theora
+```
+
 ## Running
-
-> **warning**
->
-> This is a simple demo where raw image data is being transmitted over the network, and therefore some [DDS-tunning](https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html) should be done (both on ROSbot and PC):
->
-> For configs in LAN:
-> ```bash
-> sudo sysctl -w net.ipv4.ipfrag_time=3 # 3s
-> sudo sysctl -w net.ipv4.ipfrag_high_thresh=134217728 # (128 MB)
-> ```
->
-> For configs over VPN:
-> ```bash
-> sudo sysctl -w net.ipv6.ip6frag_time=3 # 3s
-> sudo sysctl -w net.ipv6.ip6frag_high_thresh=134217728 # (128 MB)
-> ```
-
 
 ### PC
 
@@ -98,7 +95,6 @@ docker compose -f compose.pc.yaml down
 
 ### ROSbot
 
-
 ```bash
 docker compose up
 ```
@@ -119,4 +115,22 @@ husarion@rosbot:~$ ifstat -i wlan0
     6.73   2565.20
     1.02   2748.65
     1.18   2749.64
+```
+
+**2. Sending uncompressed video frames over the network**
+
+If raw image data is being transmitted over the network, you need to perform some [DDS-tunning](https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html) (both on ROSbot and PC):
+
+For configs in LAN:
+
+```bash
+sudo sysctl -w net.ipv4.ipfrag_time=3 # 3s
+sudo sysctl -w net.ipv4.ipfrag_high_thresh=134217728 # (128 MB)
+```
+
+For configs over VPN:
+
+```bash
+sudo sysctl -w net.ipv6.ip6frag_time=3 # 3s
+sudo sysctl -w net.ipv6.ip6frag_high_thresh=134217728 # (128 MB)
 ```
