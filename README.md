@@ -2,7 +2,7 @@
 
 Controlling robot in real-time over the internet with a video streaming
 
-![ROSbot ROS2 user interface](docs/teleop.png)
+![ROSbot ROS2 user interface](docs/teleop-rosbot.png)
 
 ## Clonning the repo
 
