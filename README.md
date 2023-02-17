@@ -1,6 +1,6 @@
 # rosbot-telepresence
 
-Controlling robot in real-time over the internet with a video streaming
+Manual ROSbot Driving over the Internet with Real-Time Camera Feed
 
 ![ROSbot ROS2 user interface](docs/teleop-rosbot.png)
 
