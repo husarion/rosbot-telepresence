@@ -37,7 +37,7 @@ services:
   image_compressor:
     image: husarion/image-transport:humble
     command: >
-      ros2 run image_transport republish raw ${CODEC:-theora}
+      ros2 run image_transport republish raw compressed
         --ros-args
         --remap in:=/camera/color/image_raw
-        --remap out/${CODEC:-theora}:=/camera/color/image_raw/${CODEC:-theora}
+        --remap out/compressed:=/camera/color/image_raw/compressed
