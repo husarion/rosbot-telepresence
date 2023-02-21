@@ -6,6 +6,20 @@ x-net-config:
 
 services:
 
+  foxglove:
+    image: husarion/foxglove:humble-nightly
+    <<: *net-config
+    volumes:
+      - ./params/RosbotTeleop.json:/src/FoxgloveDefaultLayout.json
+    environment:
+      - FOXGLOVE_PORT=8080
+      - ROSBRIDGE_PORT=9090
+
+  rosbridge:
+    image: husarion/rosbridge:humble-nightly
+    <<: *net-config
+    command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml  
+
   rosbot:
     image: husarion/rosbot:humble
     <<: *net-config

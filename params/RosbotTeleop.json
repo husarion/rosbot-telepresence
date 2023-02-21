@@ -1,0 +1,149 @@
+{
+  "configById": {
+    "ImageViewPanel!4091812": {
+      "cameraTopic": "/camera/color/image_raw/compressed",
+      "enabledMarkerTopics": [],
+      "mode": "fit",
+      "pan": {
+        "x": -1,
+        "y": 8
+      },
+      "rotation": 0,
+      "synchronize": false,
+      "transformMarkers": false,
+      "zoom": 1
+    },
+    "Teleop!jo9z4f": {
+      "publishRate": 10,
+      "upButton": {
+        "field": "linear-x",
+        "value": 0.2
+      },
+      "downButton": {
+        "field": "linear-x",
+        "value": -0.2
+      },
+      "leftButton": {
+        "field": "angular-z",
+        "value": 1
+      },
+      "rightButton": {
+        "field": "angular-z",
+        "value": -1
+      },
+      "topic": "/cmd_vel"
+    },
+    "RosOut!b0toow": {
+      "searchTerms": [],
+      "minLogLevel": 1
+    },
+    "Publish!1vyu7cy": {
+      "topicName": "/led/left",
+      "datatype": "std_msgs/msg/Bool",
+      "buttonText": "LED off",
+      "buttonTooltip": "",
+      "buttonColor": "#a80000",
+      "advancedView": false,
+      "value": "{\n  \"data\": false\n}",
+      "foxglovePanelTitle": ""
+    },
+    "Publish!1lmp24z": {
+      "topicName": "/led/left",
+      "datatype": "std_msgs/msg/Bool",
+      "buttonText": "LED on",
+      "buttonTooltip": "",
+      "buttonColor": "#00a81d",
+      "advancedView": false,
+      "value": "{\n  \"data\": true\n}",
+      "foxglovePanelTitle": ""
+    },
+    "DiagnosticSummary!i9962z": {
+      "minLevel": 0,
+      "pinnedIds": [],
+      "hardwareIdFilter": "",
+      "topicToRender": "/diagnostics",
+      "sortByLevel": true
+    },
+    "DiagnosticStatusPanel!1nq3256": {
+      "topicToRender": "/diagnostics",
+      "selectedHardwareId": "none",
+      "selectedName": "ekf_filter_node: Filter diagnostic updater",
+      "collapsedSections": []
+    },
+    "Plot!n3omhv": {
+      "paths": [
+        {
+          "value": "/battery.voltage",
+          "enabled": true,
+          "timestampMethod": "receiveTime"
+        }
+      ],
+      "minYValue": 8,
+      "maxYValue": 13,
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": false,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240,
+      "foxglovePanelTitle": "Battery [V]"
+    },
+    "Gauge!35smwvj": {
+      "path": "/battery.voltage",
+      "minValue": 8,
+      "maxValue": 12.5,
+      "colorMap": "turbo",
+      "colorMode": "colormap",
+      "gradient": [
+        "#0000ff",
+        "#ff00ff"
+      ],
+      "reverse": false
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": {
+    "direction": "row",
+    "first": {
+      "first": "ImageViewPanel!4091812",
+      "second": "Teleop!jo9z4f",
+      "direction": "column",
+      "splitPercentage": 74.4611365120836
+    },
+    "second": {
+      "first": {
+        "first": {
+          "first": {
+            "first": "RosOut!b0toow",
+            "second": "Gauge!35smwvj",
+            "direction": "column"
+          },
+          "second": {
+            "first": "Publish!1vyu7cy",
+            "second": "Publish!1lmp24z",
+            "direction": "row"
+          },
+          "direction": "column",
+          "splitPercentage": 79.83193277310926
+        },
+        "second": {
+          "direction": "column",
+          "second": "DiagnosticStatusPanel!1nq3256",
+          "first": "DiagnosticSummary!i9962z",
+          "splitPercentage": 57.31092436974791
+        },
+        "direction": "column"
+      },
+      "second": "Plot!n3omhv",
+      "direction": "column",
+      "splitPercentage": 77.72697583278902
+    },
+    "splitPercentage": 73.79526105980983
+  }
+}

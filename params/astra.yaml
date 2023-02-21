@@ -1,6 +1,6 @@
 camera_name : "camera"
-color_width: 640
-color_height: 480
+color_width: 320
+color_height: 240
 color_fps: 30
 enable_color: true
 
@@ -8,7 +8,7 @@ enable_color: true
 depth_width: 640
 depth_height: 480
 depth_fps: 30
-enable_depth: true
+enable_depth: false
 
 # open depth to color alignment （hardware alignment）
 depth_align: false
