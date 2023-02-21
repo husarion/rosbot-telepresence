@@ -37,6 +37,18 @@
       "searchTerms": [],
       "minLogLevel": 1
     },
+    "Gauge!35smwvj": {
+      "path": "/battery.voltage",
+      "minValue": 8,
+      "maxValue": 12.5,
+      "colorMap": "turbo",
+      "colorMode": "colormap",
+      "gradient": [
+        "#0000ff",
+        "#ff00ff"
+      ],
+      "reverse": false
+    },
     "Publish!1vyu7cy": {
       "topicName": "/led/left",
       "datatype": "std_msgs/msg/Bool",
@@ -62,7 +74,7 @@
       "pinnedIds": [],
       "hardwareIdFilter": "",
       "topicToRender": "/diagnostics",
-      "sortByLevel": true
+      "sortByLevel": false
     },
     "DiagnosticStatusPanel!1nq3256": {
       "topicToRender": "/diagnostics",
@@ -88,19 +100,7 @@
       "isSynced": true,
       "xAxisVal": "timestamp",
       "sidebarDimension": 240,
-      "foxglovePanelTitle": "Battery [V]"
-    },
-    "Gauge!35smwvj": {
-      "path": "/battery.voltage",
-      "minValue": 8,
-      "maxValue": 12.5,
-      "colorMap": "turbo",
-      "colorMode": "colormap",
-      "gradient": [
-        "#0000ff",
-        "#ff00ff"
-      ],
-      "reverse": false
+      "foxglovePanelTitle": "Plot"
     }
   },
   "globalVariables": {},
@@ -138,7 +138,8 @@
           "first": "DiagnosticSummary!i9962z",
           "splitPercentage": 57.31092436974791
         },
-        "direction": "column"
+        "direction": "column",
+        "splitPercentage": 66.58717619279118
       },
       "second": "Plot!n3omhv",
       "direction": "column",

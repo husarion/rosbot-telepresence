@@ -1,14 +1,9 @@
-x-net-config:
-  &net-config
-  network_mode: host
-  ipc: host
-  env_file: net.env
-
 services:
 
   foxglove:
     image: husarion/foxglove:humble-nightly
-    <<: *net-config
+    ports:
+      - 8080:8080
     volumes:
       - ./params/RosbotTeleop.json:/src/FoxgloveDefaultLayout.json
     environment:
@@ -17,24 +12,22 @@ services:
 
   rosbridge:
     image: husarion/rosbridge:humble-nightly
-    <<: *net-config
+    ports:
+      - 9090:9090
     command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml  
 
   rosbot:
     image: husarion/rosbot:humble
-    <<: *net-config
     command: ros2 launch rosbot_bringup bringup.launch.py
 
   microros:
     image: husarion/micro-ros-agent:humble
-    <<: *net-config
     devices:
       - ${SERIAL_PORT:?err}
     command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000
 
   astra:
     image: husarion/astra:humble
-    <<: *net-config
     devices:
       - /dev/bus/usb/
     volumes:
@@ -43,7 +36,6 @@ services:
 
   image_compressor:
     image: husarion/image-transport:humble
-    <<: *net-config
     command: >
       ros2 run image_transport republish raw ${CODEC:-theora}
         --ros-args
