@@ -9,7 +9,7 @@ Manual ROSbot Driving over the Internet with Real-Time Camera Feed
 This repository contains the Docker Compose setup for both PC and ROSbot. You can clone it to both PC and ROSbot, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
 
 ```bash
-git clone https://github.com/husarion/rosbot-slam
+git clone https://github.com/husarion/rosbot-telepresence
 cd rosbot-slam 
 export ROSBOT_ADDR=10.5.10.123 # Replace with your own ROSbot's IP or Husarnet hostname
 ./sync_with_rosbot.sh $ROSBOT_ADDR
