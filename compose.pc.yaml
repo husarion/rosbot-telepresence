@@ -1,9 +1,3 @@
-x-net-config:
-  &net-config
-  network_mode: host
-  ipc: host
-  env_file: net.env
-
 x-gpu-config:
   &gpu-config
   runtime: nvidia
@@ -22,7 +16,6 @@ services:
 
   image_decompressor:
     image: husarion/image-transport:humble
-    <<: *net-config
     command: >
       ros2 run image_transport republish ${CODEC:-theora} raw
       --ros-args
@@ -33,12 +26,29 @@ services:
   # "cpu-config" with "gpu-config"
   interface:
     image: husarion/image-tools:humble
-    <<: [ *net-config, *cpu-config ]
+    <<: [ *cpu-config ]
     container_name: interface
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     command: ros2 run image_tools showimage --ros-args -p reliability:=best_effort --remap image:=/camera/my_image_raw
 
+  dds-router:
+    image: husarnet/dds-router:topic-filtering
+    network_mode: host
+    environment:
+      # - ROS_DOMAIN_ID=1
+      - DISCOVERY=CLIENT
+      - DS_HOSTNAME=rosbot2r
+      - DS_SERVER_ID=4
+      - DS_CLIENT_ID=9
+    volumes:
+      - ./filter.yaml:/filter.yaml
+      - ./config.client.template.yaml:/config.client.template.yaml
+      - ./config.server.template.yaml:/config.server.template.yaml
+      - ./config.wan.template.yaml:/config.wan.template.yaml
+      - ./entrypoint.sh:/entrypoint.sh
+      - ./config_daemon.sh:/config_daemon.sh
+    # entrypoint: sleep 3600
   # joy2twist:
   #   image: husarion/joy2twist:humble
   #   <<: *net-config

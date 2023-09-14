@@ -1,0 +1,27 @@
+version: v3.0
+
+allowlist:
+  - name: "rt/*"
+blocklist: []
+builtin-topics: []
+
+participants:
+
+  - name: SimpleParticipant
+    kind: local
+    domain: 0
+    transport: udp
+
+  - name: ClientDSParticipant
+    kind: local-discovery-server
+    discovery-server-guid:
+      ros-discovery-server: true
+      id: 1
+    connection-addresses:
+      - discovery-server-guid:
+          ros-discovery-server: true
+          id: 0
+        addresses:
+          - domain: master
+            port: 11811
+            transport: udp

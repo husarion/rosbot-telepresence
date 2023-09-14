@@ -1,0 +1,22 @@
+version: v3.0
+
+allowlist:
+  - name: "rt/*"
+blocklist: []
+builtin-topics: []
+
+participants:
+
+  - name: SimpleParticipant
+    kind: local
+    domain: 0
+    transport: udp
+
+  - name: RemoteParticipant
+    kind: initial-peers
+    listening-addresses:
+      - ip: 127.0.0.1
+        port: 11811
+    connection-addresses:
+      - ip: 127.0.0.1
+        port: 11811
