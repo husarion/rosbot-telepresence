@@ -36,19 +36,20 @@ services:
     image: husarnet/dds-router:topic-filtering
     network_mode: host
     environment:
-      # - ROS_DOMAIN_ID=1
       - DISCOVERY=CLIENT
       - DS_HOSTNAME=rosbot2r
       - DS_SERVER_ID=4
       - DS_CLIENT_ID=9
     volumes:
       - ./filter.yaml:/filter.yaml
-      - ./config.client.template.yaml:/config.client.template.yaml
-      - ./config.server.template.yaml:/config.server.template.yaml
-      - ./config.wan.template.yaml:/config.wan.template.yaml
-      - ./entrypoint.sh:/entrypoint.sh
-      - ./config_daemon.sh:/config_daemon.sh
+    #   - ./config.client.template.yaml:/config.client.template.yaml
+    #   - ./config.server.template.yaml:/config.server.template.yaml
+    #   - ./config.wan.template.yaml:/config.wan.template.yaml
+    #   - ./entrypoint.sh:/entrypoint.sh
+    #   - ./config_daemon.sh:/config_daemon.sh
+
     # entrypoint: sleep 3600
+
   # joy2twist:
   #   image: husarion/joy2twist:humble
   #   <<: *net-config

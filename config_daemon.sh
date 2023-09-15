@@ -11,36 +11,38 @@ while true; do
         touch config.yaml.tmp
     fi
 
-    husarnet_api_response=$(curl -s http://127.0.0.1:16216/api/status)
+    if [[ $husarnet_ready == true ]]; then
+        husarnet_api_response=$(curl -s http://127.0.0.1:16216/api/status)
 
-    if [[ $? -ne 0 ]]; then
-        echo "Failed to connect to Husarnet API endpoint."
-        pkill ddsrouter
-        exit 1
+        if [[ $? -ne 0 ]]; then
+            echo "Failed to connect to Husarnet API endpoint."
+            pkill ddsrouter
+            exit 1
+        fi
+
+        if [[ "$DISCOVERY" == "WAN" ]]; then
+            export local_ip=$(echo $husarnet_api_response | yq .result.local_ip)
+
+            peers=$(echo $husarnet_api_response | yq '.result.whitelist')
+            peers_no=$(echo $peers | yq '. | length')
+
+            yq -i 'del(.participants[1].connection-addresses[0])' config.yaml
+
+            for ((i = 0; i < $peers_no; i++)); do
+                # Extract husarnet_address for the current peer using jq
+                export i
+                export address=$(echo $peers | yq -r '.[env(i)]')
+
+                if [ "$local_ip" != "$address" ]; then
+                    yq -i '.participants[1].connection-addresses += {"ip": env(address), "port": 11811} ' config.yaml
+                fi
+            done
+        fi
     fi
 
     yq -i '.allowlist = load("filter.yaml").allowlist' config.yaml
     yq -i '.blocklist = load("filter.yaml").blocklist' config.yaml
     yq -i '.builtin-topics = load("filter.yaml").builtin-topics' config.yaml
-
-    export local_ip=$(echo $husarnet_api_response | yq .result.local_ip)
-
-    if [ "$DISCOVERY" == "WAN" ]; then
-        peers=$(echo $husarnet_api_response | yq '.result.whitelist')
-        peers_no=$(echo $peers | yq '. | length')
-
-        yq -i 'del(.participants[1].connection-addresses[0])' config.yaml
-
-        for ((i = 0; i < $peers_no; i++)); do
-            # Extract husarnet_address for the current peer using jq
-            export i
-            export address=$(echo $peers | yq -r '.[env(i)]')
-
-            if [ "$local_ip" != "$address" ]; then
-                yq -i '.participants[1].connection-addresses += {"ip": env(address), "port": 11811} ' config.yaml
-            fi
-        done
-    fi
 
     if ! cmp -s config.yaml config.yaml.tmp; then
         # mv is an atomic operation on POSIX systems (cp is not)

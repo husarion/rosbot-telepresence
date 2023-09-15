@@ -1,0 +1,18 @@
+version: v3.0
+
+allowlist:
+  - name: "rt/*"
+blocklist: []
+builtin-topics: []
+
+participants:
+
+  - name: SimpleParticipant1
+    kind: local
+    domain: 0
+    transport: udp
+
+  - name: SimpleParticipant2
+    kind: local
+    domain: 0
+    transport: udp
