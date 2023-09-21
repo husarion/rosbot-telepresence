@@ -17,42 +17,43 @@ export ROSBOT_ADDR=10.5.10.123 # Replace with your own ROSbot's IP or Husarnet h
 
 ## Flashing the ROSbot Firmware
 
-Execute in the ROSbot's shell:
+SSH to the ROSbot's shell:
 
 ```bash
-docker stop rosbot microros || true && docker run \
---rm -it --privileged \
-husarion/rosbot:humble \
-/flash-firmware.py /root/firmware.bin
+ssh husarion@$ROSBOT_ADDR
+```
+
+and execute:
+
+```bash
+./flash_rosbot_firmware.sh
 ```
 
 ## Configuration
 
-### Choosing the Network (DDS) Config
+### Connecting ROSbot and laptop over VPN
 
-Edit `net.env` file and uncomment one of the available configs:
+1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
+2. Connect your laptop to the [Husarnet network](https://husarnet.com/docs). If you are Ubuntu user, just run:
 
-```bash
-# =======================================
-# Network config options (uncomment one)
-# =======================================
+   ```bash
+   curl https://install.husarnet.com/install.sh | sudo bash
+   ```
 
-# 1. Fast DDS + LAN
-RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+   and connect to the Husarnet network with:
 
-# 2. Cyclone DDS + LAN
-# RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+   ```bash
+   sudo husarnet join <paste-join-code-here>
+   ```
 
-# 3. Fast DDS + VPN
-# RMW_IMPLEMENTATION=rmw_fastrtps_cpp
-# FASTRTPS_DEFAULT_PROFILES_FILE=/husarnet-fastdds.xml
+3. Connect your ROSbot to the Husarnet network. Husarnet is already pre-installed so just run:
 
-# 4. Cyclone DDS + VPN
-# RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
-# CYCLONEDDS_URI=file:///husarnet-cyclonedds.xml
-```
+   ```bash
+   sudo husarnet join <paste-join-code-here> rosbot2r
+   ```
 
-If you choose to use the VPN option, both your ROSbot and laptop must be connected to the same Husarnet network. Follow the guide [here](https://husarion.com/manuals/rosbot/remote-access/).
+   > note that `rosbot2r` is a Husarnet hostname that is hardcoded in the [compose.pc.yaml](/rosbot-telepresence/blob/main/compose.pc.yaml) file. If you want a different hostname for your ROSbot remember to change it.
+
 
 ### Choosing the video compression
 
@@ -75,17 +76,25 @@ xhost +local:docker && \
 docker compose -f compose.pc.yaml up -d
 ```
 
-Now to control the robot use [a gamepad](https://husarion.com/tutorials/other-tutorials/rosbot-gamepad/) or open a teleop interface:
-
-```
-docker exec -it interface bash
-```
-
-And inside the running container shell execute:
+open a teleop interface - if you have ROS 2 installed on your laptop just run:
 
 ```bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
+
+> **Don't have ROS 2?**
+>
+> If you don't have ROS 2 natively installed, you can access the `interface` service from `compose.pc.yaml` that has the `teleop_twist_keyboard` package preeinstalled:
+> 
+> ```
+> docker compose -f compose.pc.yaml exec -it interface bash
+> ```
+> 
+> And inside the running container shell execute:
+> 
+> ```bash
+> ros2 run teleop_twist_keyboard teleop_twist_keyboard
+> ```
 
 To turn off run:
 
