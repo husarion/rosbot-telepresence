@@ -1,20 +1,24 @@
+x-common-config:
+  &common-config
+  restart: always
+
 services:
 
   rosbot:
     image: husarion/rosbot:humble-0.6.1-20230712
-    restart: always
+    <<: *common-config
     command: ros2 launch rosbot_bringup bringup.launch.py
 
   microros:
     image: husarion/micro-xrce-agent:v2.4.1
-    restart: always
+    <<: *common-config
     devices:
       - ${SERIAL_PORT:?err}
     command: MicroXRCEAgent serial -D $SERIAL_PORT serial -b 576000
 
   astra:
     image: husarion/astra:humble
-    restart: always
+    <<: *common-config
     devices:
       - /dev/bus/usb/
     volumes:
@@ -23,7 +27,7 @@ services:
 
   image_compressor:
     image: husarion/image-transport:humble
-    restart: always
+    <<: *common-config
     command: >
       ros2 run image_transport republish raw ${CODEC:-theora}
         --ros-args
@@ -32,9 +36,17 @@ services:
         
   dds-router:
     image: husarnet/dds-router:v2.0.0
-    restart: always
+    <<: *common-config
     network_mode: host
     volumes:
       - ./filter.yaml:/filter.yaml
+      - ./config.server.template.yaml:/config.server.template.yaml
     environment:
       - DISCOVERY_SERVER_PORT=11888
+
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/24

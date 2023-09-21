@@ -1,0 +1,31 @@
+version: v3.0
+
+allowlist:
+  - name: "rt/*"
+blocklist: []
+builtin-topics: []
+
+participants:
+
+  - name: SimpleParticipant
+    kind: local
+    domain: 0
+    transport: udp
+
+    # 1. solution for Docker based setups with no network mode host
+    whitelist-interfaces:
+      - "172.22.0.1"    # Localhost only
+
+    # 2. solution for ROS 2 nodes launched on host to prevent massages loop
+    # the problem with that is: you need to have other containers in a network mode: host
+    # ignore-participant-flags: filter_different_host
+
+  - name: ServerDSParticipant
+    kind: local-discovery-server
+    discovery-server-guid:
+      ros-discovery-server: true
+      id: 0
+    listening-addresses:
+      - ip: 127.0.0.1
+        port: 11811
+        transport: udp

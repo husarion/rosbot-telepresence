@@ -1,0 +1,30 @@
+version: v3.0
+
+allowlist:
+  - name: "rt/*"
+blocklist: []
+builtin-topics: []
+
+participants:
+
+  - name: SimpleParticipant
+    kind: local
+    domain: 0
+    transport: udp
+
+    # the problem with that is: you need to have other containers in a network mode: host
+    # ignore-participant-flags: filter_different_host
+
+  - name: ClientDSParticipant
+    kind: local-discovery-server
+    discovery-server-guid:
+      ros-discovery-server: true
+      id: 1
+    connection-addresses:
+      - discovery-server-guid:
+          ros-discovery-server: true
+          id: 0
+        addresses:
+          - ip: 127.0.0.1
+            port: 11811
+            transport: udp

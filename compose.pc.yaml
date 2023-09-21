@@ -1,3 +1,7 @@
+x-common-config:
+  &common-config
+  restart: always
+
 x-gpu-config:
   &gpu-config
   runtime: nvidia
@@ -16,7 +20,7 @@ services:
 
   image_decompressor:
     image: husarion/image-transport:humble
-    restart: always
+    <<: *common-config
     command: >
       ros2 run image_transport republish ${CODEC:-theora} raw
       --ros-args
@@ -27,21 +31,27 @@ services:
   # "cpu-config" with "gpu-config"
   interface:
     image: husarion/image-tools:humble
-    restart: always
-    <<: [ *cpu-config ]
+    <<: [*common-config, *cpu-config]
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     command: ros2 run image_tools showimage --ros-args -p reliability:=best_effort --remap image:=/camera/my_image_raw
 
   dds-router:
     image: husarnet/dds-router:v2.0.0
-    restart: always
+    <<: *common-config
     network_mode: host
     volumes:
       - ./filter.yaml:/filter.yaml
+      - ./config.client.template.yaml:/config.client.template.yaml
     environment:
       - ROS_DISCOVERY_SERVER=rosbot2r:11888
 
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/24
 
   # joy2twist:
   #   image: husarion/joy2twist:humble
