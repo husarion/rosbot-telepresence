@@ -40,6 +40,7 @@ services:
     network_mode: host
     volumes:
       - ./filter.yaml:/filter.yaml
+      - ./entrypoint.sh:/entrypoint.sh
     environment:
       - DISCOVERY_SERVER_PORT=11888
       - WHITELIST_INTERFACES=172.22.0.1
