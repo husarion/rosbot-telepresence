@@ -37,14 +37,14 @@ services:
     command: ros2 run image_tools showimage --ros-args -p reliability:=best_effort --remap image:=/camera/my_image_raw
 
   dds-router:
-    image: husarnet/dds-router:v2.0.0
+    image: husarnet/dds-router:local-participant-whitelist
     <<: *common-config
     network_mode: host
     volumes:
       - ./filter.yaml:/filter.yaml
-      - ./config.client.template.yaml:/config.client.template.yaml
     environment:
       - ROS_DISCOVERY_SERVER=rosbot2r:11888
+      - WHITELIST_INTERFACES=172.22.0.1 127.0.0.1
 
 networks:
   default:

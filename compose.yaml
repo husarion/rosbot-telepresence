@@ -35,14 +35,14 @@ services:
         --remap out/${CODEC:-theora}:=/camera/color/image_raw/${CODEC:-theora}
         
   dds-router:
-    image: husarnet/dds-router:v2.0.0
+    image: husarnet/dds-router:local-participant-whitelist
     <<: *common-config
     network_mode: host
     volumes:
       - ./filter.yaml:/filter.yaml
-      - ./config.server.template.yaml:/config.server.template.yaml
     environment:
       - DISCOVERY_SERVER_PORT=11888
+      - WHITELIST_INTERFACES=172.22.0.1
 
 networks:
   default:
