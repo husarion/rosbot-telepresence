@@ -143,3 +143,11 @@ For configs over VPN:
 sudo sysctl -w net.ipv6.ip6frag_time=3 # 3s
 sudo sysctl -w net.ipv6.ip6frag_high_thresh=134217728 # (128 MB)
 ```
+
+**3. Missing Theora header error**
+
+```bash
+docker compose restart image_compressor
+```
+
+There is a bug in the theora codec, and header probably is sent only during the startup, so if you launched `compose.pc.yaml` after `compose.yaml` you will need to restart the `image_compressor` service.
