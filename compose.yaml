@@ -39,7 +39,7 @@ services:
     environment:
       LISTENING_PORT: 11888
       ID: 0
-      WHITELIST_INTERFACES: 172.22.0.1
+      WHITELIST_INTERFACES: 172.22.0.1 # do demo Macka trzeba uruchomić bez tej linijki
 
 networks:
   default:
