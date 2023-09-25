@@ -1,26 +1,20 @@
-x-net-config:
-  &net-config
-  network_mode: host
-  ipc: host
-  env_file: net.env
-
 services:
 
   rosbot:
-    image: husarion/rosbot:humble
-    <<: *net-config
+    image: husarion/rosbot:humble-0.6.1-20230712
+    restart: always
     command: ros2 launch rosbot_bringup bringup.launch.py
 
   microros:
-    image: husarion/micro-ros-agent:humble
-    <<: *net-config
+    image: husarion/micro-xrce-agent:v2.4.1
+    restart: always
     devices:
       - ${SERIAL_PORT:?err}
-    command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000
+    command: MicroXRCEAgent serial -D $SERIAL_PORT serial -b 576000
 
   astra:
     image: husarion/astra:humble
-    <<: *net-config
+    restart: always
     devices:
       - /dev/bus/usb/
     volumes:
@@ -29,9 +23,25 @@ services:
 
   image_compressor:
     image: husarion/image-transport:humble
-    <<: *net-config
+    restart: always
     command: >
       ros2 run image_transport republish raw ${CODEC:-theora}
         --ros-args
         --remap in:=/camera/color/image_raw
         --remap out/${CODEC:-theora}:=/camera/color/image_raw/${CODEC:-theora}
+        
+  ros2router:
+    image: husarnet/ros2router:1.0.0
+    restart: always
+    network_mode: host
+    volumes:
+      - ./filter.yaml:/filter.yaml
+    environment:
+      WHITELIST_INTERFACES: 172.22.0.1
+
+networks:
+  default:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.22.0.0/24
