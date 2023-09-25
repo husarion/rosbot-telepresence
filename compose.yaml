@@ -1,3 +1,9 @@
+x-cpu-config:
+  &cpu-config
+  environment:
+    - DISPLAY=${DISPLAY:?err}
+    - LIBGL_ALWAYS_SOFTWARE=1
+
 services:
 
   rosbot:
@@ -12,23 +18,14 @@ services:
       - ${SERIAL_PORT:?err}
     command: MicroXRCEAgent serial -D $SERIAL_PORT serial -b 576000
 
-  astra:
-    image: husarion/astra:humble
-    restart: always
-    devices:
-      - /dev/bus/usb/
+  luxonis:
+    image: husarion/depthai:humble-2.8.1
     volumes:
-      - ./params/astra.yaml:/ros2_ws/install/astra_camera/share/astra_camera/params/astra_mini_params.yaml
-    command: ros2 launch astra_camera astra_mini.launch.py
-
-  image_compressor:
-    image: husarion/image-transport:humble
-    restart: always
-    command: >
-      ros2 run image_transport republish raw ${CODEC:-theora}
-        --ros-args
-        --remap in:=/camera/color/image_raw
-        --remap out/${CODEC:-theora}:=/camera/color/image_raw/${CODEC:-theora}
+      - /dev/bus/usb:/dev/bus/usb
+      - ./params/oak-1.yaml:/ros2_ws/install/depthai_ros_driver/share/depthai_ros_driver/config/camera.yaml
+    device_cgroup_rules:
+      - 'c 189:* rmw'
+    command: ros2 launch depthai_ros_driver camera.launch.py parent_frame:=oak-1-base-frame
         
   ddsrouter:
     image: husarnet/dds-router:v2.0.0

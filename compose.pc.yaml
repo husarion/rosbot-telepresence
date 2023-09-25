@@ -18,9 +18,9 @@ services:
     image: husarion/image-transport:humble
     restart: always
     command: >
-      ros2 run image_transport republish ${CODEC:-theora} raw
+      ros2 run image_transport republish theora raw
       --ros-args
-      --remap in/${CODEC:-theora}:=/camera/color/image_raw/${CODEC:-theora}
+      --remap in/theora:=/oak/rgb/image_raw/theora
       --remap out:=/camera/my_image_raw
 
   # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
@@ -51,14 +51,3 @@ networks:
       driver: default
       config:
         - subnet: 172.22.0.0/24
-
-  # joy2twist:
-  #   image: husarion/joy2twist:humble
-  #   network_mode: host
-  #   devices:
-  #     - /dev/input
-  #   volumes:
-  #     - ./params/joy2twist.yaml:/params.yaml
-  #   command: >
-  #     ros2 launch joy2twist gamepad_controller.launch.py
-  #       joy2twist_params_file:=/params.yaml

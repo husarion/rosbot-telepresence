@@ -1,0 +1,50 @@
+/oak:
+  ros__parameters:
+    # qos_overrides:  # group for all the qos settings
+    #   '/oak/rgb/image_raw':
+    #     publisher:
+    #       reliability: best_effort
+    camera:
+      i_enable_imu: false
+      i_enable_ir: false
+      i_floodlight_brightness: 0
+      i_ip: ''
+      i_laser_dot_brightness: 800
+      i_mx_id: ''
+      i_nn_type: none
+      i_pipeline_type: RGB
+      i_usb_port_id: ''
+      i_usb_speed: SUPER_PLUS
+      i_pipeline_dump: false
+      i_calibration_dump: false
+      i_external_calibration_path: ''
+    rgb:
+      i_board_socket_id: 0
+      i_simulate_from_topic: false
+      i_get_base_device_timestamp: false
+      i_disable_node: false
+      i_calibration_file: ''
+      i_enable_preview: false
+      i_fps: 30.0
+      i_width: 640
+      i_height: 360
+      i_interleaved: false
+      i_keep_preview_aspect_ratio: true
+      i_low_bandwidth: false
+      i_low_bandwidth_quality: 50
+      i_max_q_size: 30
+      i_preview_size: 300
+      i_publish_topic: true
+      i_resolution: '800'
+      i_set_isp_scale: false
+      i_isp_num: 2
+      i_isp_den: 3
+      i_output_isp: false
+      r_exposure: 20000
+      r_focus: 1
+      r_iso: 800
+      r_set_man_exposure: false
+      r_set_man_focus: false
+      r_set_man_whitebalance: false
+      r_whitebalance: 3300
+    use_sim_time: false
