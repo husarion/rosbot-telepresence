@@ -30,16 +30,14 @@ services:
         --remap in:=/camera/color/image_raw
         --remap out/${CODEC:-theora}:=/camera/color/image_raw/${CODEC:-theora}
         
-  ddsrouter:
-    image: husarnet/dds-router:v2.0.0
+  ros2router:
+    image: husarnet/ros2router:1.0.0
     restart: always
     network_mode: host
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
-      LISTENING_PORT: 11888
-      ID: 0
-      WHITELIST_INTERFACES: 172.22.0.1 # do demo Macka trzeba uruchomić bez tej linijki
+      WHITELIST_INTERFACES: 172.22.0.1
 
 networks:
   default:

@@ -1,6 +1,8 @@
 allowlist:
   - name: "rt/camera/color/image_raw/theora"
     type: "theora_image_transport::msg::dds_::Packet_"
+  - name: "rt/camera/color/image_raw/compressed"
+    type: "sensor_msgs::msg::dds_::CompressedImage_"
   - name: "rt/cmd_vel"
     type: "geometry_msgs::msg::dds_::Twist_"
 blocklist: []
@@ -9,3 +11,5 @@ builtin-topics:
     type: "theora_image_transport::msg::dds_::Packet_"
   - name: "rt/cmd_vel"
     type: "geometry_msgs::msg::dds_::Twist_"
+  - name: "rt/camera/color/image_raw/compressed"
+    type: "sensor_msgs::msg::dds_::CompressedImage_"
