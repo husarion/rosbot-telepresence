@@ -71,19 +71,19 @@ docker compose up
 
 ## Step 5: Open the web UI
 
-Use Google Chrome web browser! On your laptop visit the following URL:
+Open the **Google Chrome** browser on your laptop and navigate to:
 
 http://rosbot2r:8080
 
-Clicke the `[+]` button next to **Data source** in the left column. You will see:
+In the left column, click the **[+]** button adjacent to Data source. This will display:
 
 ![foxglove data source](docs/foxglove-datasource.png)
 
-Now click the **[Open connection]** button. You will see:
+Next, select the **[Open connection]** button, revealing:
 
 ![foxglove new connection](docs/foxglove-new-connection.png)
 
-The `WebSocket URL` field is automatically filled. Just click the **[Open]** button and you will see the web UI of your ROSbot:
+The `WebSocket URL` field should already be populated. Simply press the **[Open]** button, and the web UI of your ROSbot will appear:
 
 ![foxglove UI](docs/foxglove-ui.png)
 
