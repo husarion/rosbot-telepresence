@@ -1,7 +1,7 @@
 services:
 
   foxglove:
-    image: husarion/foxglove:humble-nightly
+    image: husarion/foxglove:humble-1.39.1-20230220
     ports:
       - 8080:8080
     volumes:
@@ -11,23 +11,23 @@ services:
       - ROSBRIDGE_PORT=9090
 
   rosbridge:
-    image: husarion/rosbridge:humble-nightly
+    image: husarion/rosbridge-server:humble-1.3.1-20230505-stable
     ports:
       - 9090:9090
     command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml  
 
   rosbot:
-    image: husarion/rosbot:humble
+    image: husarion/rosbot:humble-0.6.1-20230712
     command: ros2 launch rosbot_bringup bringup.launch.py
 
   microros:
-    image: husarion/micro-ros-agent:humble
+    image: husarion/micro-xrce-agent:v2.4.1
     devices:
       - ${SERIAL_PORT:?err}
-    command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000
+    command: MicroXRCEAgent serial -D $SERIAL_PORT serial -b 576000
 
   astra:
-    image: husarion/astra:humble
+    image: husarion/astra:humble-1.0.2-20230710-stable
     devices:
       - /dev/bus/usb/
     volumes:
@@ -35,7 +35,7 @@ services:
     command: ros2 launch astra_camera astra_mini.launch.py
 
   image_compressor:
-    image: husarion/image-transport:humble
+    image: husarion/image-transport:humble-4.2.0-20230216
     command: >
       ros2 run image_transport republish raw compressed
         --ros-args
