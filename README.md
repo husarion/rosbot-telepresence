@@ -178,4 +178,3 @@ Rather than employing the `teleop_twist_keyboard` ROS 2 package, you have the op
   #     ros2 launch joy2twist gamepad_controller.launch.py
   #       joy2twist_params_file:=/params.yaml
 ```
-
