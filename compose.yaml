@@ -7,16 +7,16 @@ x-net-config:
 services:
 
   rosbot:
-    image: husarion/rosbot:humble
+    image: husarion/rosbot:humble-0.6.1-20230712
     <<: *net-config
     command: ros2 launch rosbot_bringup bringup.launch.py
 
   microros:
-    image: husarion/micro-ros-agent:humble
+    image: husarion/micro-xrce-agent:v2.4.1
     <<: *net-config
     devices:
       - ${SERIAL_PORT:?err}
-    command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000
+    command: MicroXRCEAgent serial -D $SERIAL_PORT serial -b 576000
 
   astra:
     image: husarion/astra:humble

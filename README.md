@@ -89,6 +89,7 @@ RMW_IMPLEMENTATION=rmw_fastrtps_cpp
 # 4. Cyclone DDS + VPN
 # RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
 # CYCLONEDDS_URI=file:///husarnet-cyclonedds.xml
+# FASTRTPS_DEFAULT_PROFILES_FILE=/husarnet-fastdds.xml # for microros agent
 ```
 
 If you choose to use the VPN option, both your ROSbot and laptop must be connected to the same Husarnet network. Follow the guide [here](https://husarion.com/manuals/rosbot/remote-access/).
@@ -102,25 +103,17 @@ xhost +local:docker && \
 docker compose -f compose.pc.yaml up -d
 ```
 
-open a teleop interface - if you have ROS 2 installed on your laptop just run:
+access the `interface` service from `compose.pc.yaml` that has the `teleop_twist_keyboard` package preeinstalled:
+
+```
+docker compose -f compose.pc.yaml exec -it interface bash
+```
+
+And inside the running container shell execute:
 
 ```bash
 ros2 run teleop_twist_keyboard teleop_twist_keyboard
 ```
-
-> **Don't have ROS 2?**
->
-> If you don't have ROS 2 natively installed, you can access the `interface` service from `compose.pc.yaml` that has the `teleop_twist_keyboard` package preeinstalled:
-> 
-> ```
-> docker compose -f compose.pc.yaml exec -it interface bash
-> ```
-> 
-> And inside the running container shell execute:
-> 
-> ```bash
-> ros2 run teleop_twist_keyboard teleop_twist_keyboard
-> ```
 
 To turn off run:
 
