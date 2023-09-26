@@ -6,7 +6,7 @@ Manual ROSbot Driving over the Internet with Real-Time Camera Feed
 
 ## Step 1: Connecting ROSbot and laptop over VPN
 
-Ensure that both ROSbot 2R and PRO are linked to the same Husarnet VPN network. If they are not follow these steps:
+Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN network. If they are not follow these steps:
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
 2. Connect your laptop to the [Husarnet network](https://husarnet.com/docs). If you are Ubuntu user, just run:
