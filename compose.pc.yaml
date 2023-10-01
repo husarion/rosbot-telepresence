@@ -17,6 +17,7 @@ services:
   image_decompressor:
     image: husarion/image-transport:humble
     restart: always
+    network_mode: bridge
     command: >
       ros2 run image_transport republish ${CODEC:-theora} raw
       --ros-args
@@ -28,6 +29,7 @@ services:
   interface:
     image: husarion/image-tools:humble
     restart: always
+    network_mode: bridge
     <<: *cpu-config
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
@@ -40,22 +42,5 @@ services:
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
-      WHITELIST_INTERFACES: 172.22.0.1 127.0.0.1
+      WHITELIST_INTERFACES: 172.17.0.1 127.0.0.1
 
-networks:
-  default:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.22.0.0/24
-
-  # joy2twist:
-  #   image: husarion/joy2twist:humble
-  #   network_mode: host
-  #   devices:
-  #     - /dev/input
-  #   volumes:
-  #     - ./params/joy2twist.yaml:/params.yaml
-  #   command: >
-  #     ros2 launch joy2twist gamepad_controller.launch.py
-  #       joy2twist_params_file:=/params.yaml

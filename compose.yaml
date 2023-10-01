@@ -3,11 +3,13 @@ services:
   rosbot:
     image: husarion/rosbot:humble-0.6.1-20230712
     restart: always
+    network_mode: bridge
     command: ros2 launch rosbot_bringup bringup.launch.py
 
   microros:
     image: husarion/micro-xrce-agent:v2.4.1
     restart: always
+    network_mode: bridge
     devices:
       - ${SERIAL_PORT:?err}
     command: MicroXRCEAgent serial -D $SERIAL_PORT serial -b 576000
@@ -15,6 +17,7 @@ services:
   astra:
     image: husarion/astra:humble
     restart: always
+    network_mode: bridge
     devices:
       - /dev/bus/usb/
     volumes:
@@ -24,6 +27,7 @@ services:
   image_compressor:
     image: husarion/image-transport:humble
     restart: always
+    network_mode: bridge
     command: >
       ros2 run image_transport republish raw ${CODEC:-theora}
         --ros-args
@@ -37,11 +41,5 @@ services:
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
-      WHITELIST_INTERFACES: 172.22.0.1
+      WHITELIST_INTERFACES: 172.17.0.1
 
-networks:
-  default:
-    ipam:
-      driver: default
-      config:
-        - subnet: 172.22.0.0/24
