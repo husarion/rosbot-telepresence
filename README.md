@@ -27,7 +27,7 @@ Ensure that both ROSbot 2R and PRO are linked to the same Husarnet VPN network. 
    sudo husarnet join <paste-join-code-here> rosbot2r
    ```
 
-   > note that `rosbot2r` is a Husarnet hostname that is hardcoded in the [compose.pc.yaml](/rosbot-telepresence/blob/main/compose.pc.yaml) file. If you want a different hostname for your ROSbot remember to change it.
+   > note that `rosbot2r` is a Husarnet hostname that is hardcoded in the [compose.pc.yaml](/compose.pc.yaml) file. If you want a different hostname for your ROSbot remember to change it.
  
 
 ## Step 2: Clonning the repo
