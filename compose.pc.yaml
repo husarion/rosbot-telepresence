@@ -5,19 +5,24 @@ x-gpu-config:
     - DISPLAY=${DISPLAY:?err}
     - NVIDIA_VISIBLE_DEVICES=all
     - NVIDIA_DRIVER_CAPABILITIES=all
+    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
 
 x-cpu-config:
   &cpu-config
   environment:
     - DISPLAY=${DISPLAY:?err}
     - LIBGL_ALWAYS_SOFTWARE=1
+    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
 
 services:
 
   image_decompressor:
-    image: husarion/image-transport:humble
+    # image: husarion/image-transport:humble
+    # build: .
+    image: husarion/image-tools:humble-nightly
+    network_mode: host
+    ipc: host
     restart: always
-    network_mode: bridge
     command: >
       ros2 run image_transport republish ${CODEC:-theora} raw
       --ros-args
@@ -27,20 +32,20 @@ services:
   # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
   # "cpu-config" with "gpu-config"
   interface:
-    image: husarion/image-tools:humble
+    image: husarion/image-tools:humble-nightly
+    network_mode: host
+    ipc: host
     restart: always
-    network_mode: bridge
-    <<: *cpu-config
+    <<: [*cpu-config]
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
     command: ros2 run image_tools showimage --ros-args -p reliability:=best_effort --remap image:=/camera/my_image_raw
 
   ros2router:
-    image: husarnet/ros2router:1.0.0
-    restart: always
+    image: husarnet/ros2router:1.4.0
     network_mode: host
+    ipc: host
+    restart: always
     volumes:
       - ./filter.yaml:/filter.yaml
-    environment:
-      WHITELIST_INTERFACES: 172.17.0.1 127.0.0.1
 
