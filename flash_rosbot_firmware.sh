@@ -8,6 +8,3 @@ docker run \
 --rm -it --privileged \
 $(yq .services.rosbot.image compose.yaml) \
 ros2 run rosbot_utils flash_firmware
-
-# or
-# PRIVILEGED=true docker compose run rosbot ros2 run rosbot_utils flash_firmware

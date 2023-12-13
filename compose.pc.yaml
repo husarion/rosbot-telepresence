@@ -1,51 +1,18 @@
-x-gpu-config:
-  &gpu-config
-  runtime: nvidia
-  environment:
-    - DISPLAY=${DISPLAY:?err}
-    - NVIDIA_VISIBLE_DEVICES=all
-    - NVIDIA_DRIVER_CAPABILITIES=all
-    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
-
-x-cpu-config:
-  &cpu-config
-  environment:
-    - DISPLAY=${DISPLAY:?err}
-    - LIBGL_ALWAYS_SOFTWARE=1
-    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
-
 services:
 
-  image_decompressor:
-    # image: husarion/image-transport:humble
-    # build: .
-    image: husarion/image-tools:humble-nightly
+  rviz:
+    image: husarion/rviz2:iron-12.4.5-20231213
     network_mode: host
     ipc: host
     restart: always
-    command: >
-      ros2 run image_transport republish ${CODEC:-theora} raw
-      --ros-args
-      --remap in/${CODEC:-theora}:=/camera/color/image_raw/${CODEC:-theora}
-      --remap out:=/camera/my_image_raw
-
-  # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
-  # "cpu-config" with "gpu-config"
-  interface:
-    image: husarion/image-tools:humble-nightly
-    network_mode: host
-    ipc: host
-    restart: always
-    <<: [*cpu-config]
+    # runtime: nvidia # uncomment if you want to use GPU for rendering
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    command: ros2 run image_tools showimage --ros-args -p reliability:=best_effort --remap image:=/camera/my_image_raw
-
-  ros2router:
-    image: husarnet/ros2router:1.4.0
-    network_mode: host
-    ipc: host
-    restart: always
-    volumes:
-      - ./filter.yaml:/filter.yaml
-
+      - ./default.rviz:/root/.rviz2/default.rviz
+    environment:
+      - DISPLAY=${DISPLAY:?err}
+      - LIBGL_ALWAYS_SOFTWARE=1 # comment if you want to use CPU for rendering
+      # - NVIDIA_VISIBLE_DEVICES=all # uncomment if you want to use GPU for rendering
+      # - NVIDIA_DRIVER_CAPABILITIES=all # uncomment if you want to use GPU for rendering
+      # envs for Husarnet setup
+      - ROS_DISCOVERY_SERVER=${ROSBOT_HOSTNAME}:8080
