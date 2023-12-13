@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "stopping all running containers"
+echo "stopping rosbot container"
 docker stop rosbot
 
 echo "flashing the firmware for STM32 microcontroller in ROSbot"
