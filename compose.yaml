@@ -5,7 +5,7 @@ services:
     ports:
       - 8080:8080
     volumes:
-      - ./params/RosbotTeleop.json:/src/FoxgloveDefaultLayout.json
+      - ./params/RosbotTeleop.json:/foxglove/default-layout.json
     environment:
       - DS_TYPE=rosbridge-websocket
       - DS_PORT=9090
