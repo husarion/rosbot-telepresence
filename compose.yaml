@@ -1,43 +1,48 @@
 services:
 
   foxglove:
-    image: husarion/foxglove:humble-1.39.1-20230220
+    image: husarion/foxglove:1.74.1
     ports:
       - 8080:8080
     volumes:
-      - ./params/RosbotTeleop.json:/src/FoxgloveDefaultLayout.json
+      - ./params/RosbotTeleop.json:/foxglove/default-layout.json
     environment:
-      - FOXGLOVE_PORT=8080
-      - ROSBRIDGE_PORT=9090
+      # - DS_TYPE=rosbridge-websocket
+      # - DS_PORT=9090
+      - DS_TYPE=foxglove-websocket
+      - DS_PORT=8765
+      - UI_PORT=8080
+      - DISABLE_CACHE=true
+      - DISABLE_INTERACTION=false
 
-  rosbridge:
-    image: husarion/rosbridge-server:humble-1.3.1-20230505-stable
+  # rosbridge-ds:
+  #   image: husarion/rosbridge-server:humble-1.3.1-20230831-stable
+  #   ports:
+  #     - 9090:9090
+  #   command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml  
+
+  foxglove-ds:
+    image: husarion/foxglove-bridge:humble-0.7.3-20231213
     ports:
-      - 9090:9090
-    command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml  
+      - 8765:8765
+    command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,connectionGraph,assets]
 
   rosbot:
-    image: husarion/rosbot:humble-0.6.1-20230712
-    command: ros2 launch rosbot_bringup bringup.launch.py
-
-  microros:
-    image: husarion/micro-xrce-agent:v2.4.1
+    image: husarion/rosbot:humble-0.11.0-20231211
     devices:
       - ${SERIAL_PORT:?err}
-    command: MicroXRCEAgent serial -D $SERIAL_PORT serial -b 576000
+    command: >
+      ros2 launch rosbot_bringup combined.launch.py 
+        mecanum:=${MECANUM:-False}
+        serial_port:=$SERIAL_PORT 
+        serial_baudrate:=576000
 
   astra:
-    image: husarion/astra:humble-1.0.2-20230710-stable
+    image: husarion/astra:humble-1.0.2-20231206-stable
     devices:
       - /dev/bus/usb/
     volumes:
       - ./params/astra.yaml:/ros2_ws/install/astra_camera/share/astra_camera/params/astra_mini_params.yaml
     command: ros2 launch astra_camera astra_mini.launch.py
 
-  image_compressor:
-    image: husarion/image-transport:humble-4.2.0-20230216
-    command: >
-      ros2 run image_transport republish raw compressed
-        --ros-args
-        --remap in:=/camera/color/image_raw
-        --remap out/compressed:=/camera/color/image_raw/compressed
+
