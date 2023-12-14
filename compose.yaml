@@ -9,10 +9,13 @@ services:
   rosbot:
     image: husarion/rosbot:humble-0.11.0-20231211
     <<: *net-config
+    # network_mode: host
+    # ipc: host
     devices:
       - ${SERIAL_PORT:?err}
-    environment:
-      - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+    # environment:
+    #   - RMW_IMPLEMENTATION=rmw_fastrtps_cpp
+      # - FASTRTPS_DEFAULT_PROFILES_FILE=/husarnet-fastdds.xml
     command: >
       ros2 launch rosbot_bringup combined.launch.py 
         mecanum:=${MECANUM:-False}
