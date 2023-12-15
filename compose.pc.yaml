@@ -27,3 +27,7 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./default.rviz:/root/.rviz2/default.rviz
+      # - ./fastdds.xml:/fastdds.xml
+    # environment:
+    #   - DISPLAY=${DISPLAY:?err}
+      # - FASTRTPS_DEFAULT_PROFILES_FILE=/fastdds.xml
