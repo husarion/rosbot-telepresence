@@ -103,10 +103,10 @@ xhost +local:docker && \
 docker compose -f compose.pc.yaml up -d
 ```
 
-access the `interface` service from `compose.pc.yaml` that has the `teleop_twist_keyboard` package preeinstalled:
+access the `rviz` service from `compose.pc.yaml` that has the `teleop_twist_keyboard` package preeinstalled:
 
 ```
-docker compose -f compose.pc.yaml exec -it interface bash
+docker compose -f compose.pc.yaml exec -it rviz bash
 ```
 
 And inside the running container shell execute:

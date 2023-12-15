@@ -20,32 +20,9 @@ x-cpu-config:
 
 services:
 
-  image_decompressor:
-    image: husarion/image-transport:humble
-    <<: *net-config
-    command: >
-      ros2 run image_transport republish ${CODEC:-theora} raw
-      --ros-args
-      --remap in/${CODEC:-theora}:=/camera/color/image_raw/${CODEC:-theora}
-      --remap out:=/camera/my_image_raw
-
-  # if you have NVDIA GPU and NVIDIA Container Toolkit, you can replace
-  # "cpu-config" with "gpu-config"
-  interface:
-    image: husarion/image-tools:humble
+  rviz:
+    image: husarion/rviz2:humble-11.2.9-20231213
     <<: [ *net-config, *cpu-config ]
-    container_name: interface
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-    command: ros2 run image_tools showimage --ros-args -p reliability:=best_effort --remap image:=/camera/my_image_raw
-
-  # joy2twist:
-  #   image: husarion/joy2twist:humble
-  #   <<: *net-config
-  #   devices:
-  #     - /dev/input
-  #   volumes:
-  #     - ./params/joy2twist.yaml:/params.yaml
-  #   command: >
-  #     ros2 launch joy2twist gamepad_controller.launch.py
-  #       joy2twist_params_file:=/params.yaml
+      - ./default.rviz:/root/.rviz2/default.rviz
