@@ -3,13 +3,13 @@
       "3D!1hjkoi9": {
         "cameraState": {
           "perspective": true,
-          "distance": 1.6198942163511747,
-          "phi": 68.98751733703149,
-          "thetaOffset": 91.01941747573503,
+          "distance": 1.46195453025596,
+          "phi": 78.42640634141854,
+          "thetaOffset": 88.88640568804543,
           "targetOffset": [
-            0.8057735593210663,
-            -0.011872552349146193,
-            1.4488694747311767e-17
+            0.772236429088997,
+            0.04301925842471681,
+            2.2851146762355585e-17
           ],
           "target": [
             0,
@@ -103,10 +103,11 @@
           },
           "/scan": {
             "visible": true,
-            "colorField": "intensity",
+            "colorField": "range",
             "colorMode": "colormap",
             "colorMap": "turbo",
-            "pointSize": 8
+            "pointSize": 8,
+            "explicitAlpha": 1
           }
         },
         "layers": {
@@ -136,7 +137,8 @@
           "poseEstimateYDeviation": 0.5,
           "poseEstimateThetaDeviation": 0.26179939
         },
-        "imageMode": {}
+        "imageMode": {},
+        "followTf": "cover_link"
       },
       "Teleop!jo9z4f": {
         "publishRate": 10,
