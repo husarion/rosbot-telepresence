@@ -1,0 +1,275 @@
+{
+    "configById": {
+      "3D!1hjkoi9": {
+        "cameraState": {
+          "perspective": true,
+          "distance": 1.6198942163511747,
+          "phi": 68.98751733703149,
+          "thetaOffset": 91.01941747573503,
+          "targetOffset": [
+            0.8057735593210663,
+            -0.011872552349146193,
+            1.4488694747311767e-17
+          ],
+          "target": [
+            0,
+            0,
+            0
+          ],
+          "targetOrientation": [
+            0,
+            0,
+            0,
+            1
+          ],
+          "fovy": 45,
+          "near": 0.5,
+          "far": 5000
+        },
+        "followMode": "follow-pose",
+        "scene": {},
+        "transforms": {
+          "frame:body_link": {
+            "visible": false
+          },
+          "frame:base_link": {
+            "visible": false
+          },
+          "frame:fl_range": {
+            "visible": false
+          },
+          "frame:fr_range": {
+            "visible": false
+          },
+          "frame:rl_range": {
+            "visible": false
+          },
+          "frame:rr_range": {
+            "visible": false
+          },
+          "frame:camera_link": {
+            "visible": false
+          },
+          "frame:cover_link": {
+            "visible": false
+          },
+          "frame:imu_link": {
+            "visible": false
+          },
+          "frame:camera_color_optical_frame": {
+            "visible": false
+          },
+          "frame:camera_color_frame": {
+            "visible": false
+          },
+          "frame:camera_depth_optical_frame": {
+            "visible": false
+          },
+          "frame:camera_depth_frame": {
+            "visible": false
+          },
+          "frame:camera_orbbec_astra_link": {
+            "visible": false
+          },
+          "frame:slamtec_rplidar_a2_link": {
+            "visible": false
+          },
+          "frame:laser": {
+            "visible": false
+          },
+          "frame:odom": {
+            "visible": false
+          },
+          "frame:fl_wheel_link": {
+            "visible": false
+          },
+          "frame:fr_wheel_link": {
+            "visible": false
+          },
+          "frame:rl_wheel_link": {
+            "visible": false
+          },
+          "frame:rr_wheel_link": {
+            "visible": false
+          }
+        },
+        "topics": {
+          "/camera/color/image_raw/compressed": {
+            "visible": true,
+            "cameraInfoTopic": "/camera/color/camera_info"
+          },
+          "/robot_description": {
+            "visible": false
+          },
+          "/scan": {
+            "visible": true,
+            "colorField": "intensity",
+            "colorMode": "colormap",
+            "colorMap": "turbo",
+            "pointSize": 8
+          }
+        },
+        "layers": {
+          "c3322a52-ed75-47c6-aa20-4eccffa91a76": {
+            "visible": true,
+            "frameLocked": true,
+            "label": "URDF",
+            "instanceId": "c3322a52-ed75-47c6-aa20-4eccffa91a76",
+            "layerId": "foxglove.Urdf",
+            "sourceType": "url",
+            "url": "http://localhost:8080/rosbot.urdf",
+            "filePath": "",
+            "parameter": "",
+            "topic": "",
+            "framePrefix": "",
+            "displayMode": "auto",
+            "fallbackColor": "#ffffff",
+            "order": 1
+          }
+        },
+        "publish": {
+          "type": "point",
+          "poseTopic": "/move_base_simple/goal",
+          "pointTopic": "/clicked_point",
+          "poseEstimateTopic": "/initialpose",
+          "poseEstimateXDeviation": 0.5,
+          "poseEstimateYDeviation": 0.5,
+          "poseEstimateThetaDeviation": 0.26179939
+        },
+        "imageMode": {}
+      },
+      "Teleop!jo9z4f": {
+        "publishRate": 10,
+        "upButton": {
+          "field": "linear-x",
+          "value": 0.2
+        },
+        "downButton": {
+          "field": "linear-x",
+          "value": -0.2
+        },
+        "leftButton": {
+          "field": "angular-z",
+          "value": 1
+        },
+        "rightButton": {
+          "field": "angular-z",
+          "value": -1
+        },
+        "topic": "/cmd_vel"
+      },
+      "RosOut!b0toow": {
+        "searchTerms": [],
+        "minLogLevel": 1
+      },
+      "Gauge!35smwvj": {
+        "path": "/battery.voltage",
+        "minValue": 8,
+        "maxValue": 12.5,
+        "colorMap": "turbo",
+        "colorMode": "colormap",
+        "gradient": [
+          "#0000ff",
+          "#ff00ff"
+        ],
+        "reverse": false
+      },
+      "Publish!1vyu7cy": {
+        "topicName": "/led/left",
+        "datatype": "std_msgs/msg/Bool",
+        "buttonText": "LED off",
+        "buttonTooltip": "",
+        "buttonColor": "#a80000",
+        "advancedView": false,
+        "value": "{\n  \"data\": false\n}",
+        "foxglovePanelTitle": ""
+      },
+      "Publish!1lmp24z": {
+        "topicName": "/led/left",
+        "datatype": "std_msgs/msg/Bool",
+        "buttonText": "LED on",
+        "buttonTooltip": "",
+        "buttonColor": "#00a81d",
+        "advancedView": false,
+        "value": "{\n  \"data\": true\n}",
+        "foxglovePanelTitle": ""
+      },
+      "DiagnosticSummary!i9962z": {
+        "minLevel": 0,
+        "pinnedIds": [],
+        "hardwareIdFilter": "",
+        "topicToRender": "/diagnostics",
+        "sortByLevel": false
+      },
+      "DiagnosticStatusPanel!1nq3256": {
+        "topicToRender": "/diagnostics",
+        "selectedHardwareId": "none",
+        "selectedName": "ekf_filter_node: Filter diagnostic updater",
+        "collapsedSections": []
+      },
+      "Plot!n3omhv": {
+        "paths": [
+          {
+            "value": "/battery.voltage",
+            "enabled": true,
+            "timestampMethod": "receiveTime"
+          }
+        ],
+        "minYValue": 8,
+        "maxYValue": 13,
+        "showXAxisLabels": true,
+        "showYAxisLabels": true,
+        "showLegend": false,
+        "legendDisplay": "floating",
+        "showPlotValuesInLegend": false,
+        "isSynced": true,
+        "xAxisVal": "timestamp",
+        "sidebarDimension": 240,
+        "foxglovePanelTitle": "Plot"
+      }
+    },
+    "globalVariables": {},
+    "userNodes": {},
+    "playbackConfig": {
+      "speed": 1
+    },
+    "layout": {
+      "direction": "row",
+      "first": {
+        "first": "3D!1hjkoi9",
+        "second": "Teleop!jo9z4f",
+        "direction": "column",
+        "splitPercentage": 74.4611365120836
+      },
+      "second": {
+        "first": {
+          "first": {
+            "first": {
+              "first": "RosOut!b0toow",
+              "second": "Gauge!35smwvj",
+              "direction": "column"
+            },
+            "second": {
+              "first": "Publish!1vyu7cy",
+              "second": "Publish!1lmp24z",
+              "direction": "row"
+            },
+            "direction": "column",
+            "splitPercentage": 79.83193277310926
+          },
+          "second": {
+            "direction": "column",
+            "second": "DiagnosticStatusPanel!1nq3256",
+            "first": "DiagnosticSummary!i9962z",
+            "splitPercentage": 57.31092436974791
+          },
+          "direction": "column",
+          "splitPercentage": 66.58717619279118
+        },
+        "second": "Plot!n3omhv",
+        "direction": "column",
+        "splitPercentage": 77.72697583278902
+      },
+      "splitPercentage": 73.79526105980983
+    }
+  }

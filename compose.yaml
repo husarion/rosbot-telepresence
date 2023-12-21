@@ -7,7 +7,7 @@ services:
       - 8080:8080
       - 8765:8765
     volumes:
-      - ./params/RosbotTeleop.json:/foxglove/default-layout.json
+      - ./params/RosbotTeleopLidar.json:/foxglove/default-layout.json
     environment:
       # - DS_TYPE=rosbridge-websocket
       # - DS_PORT=9090
@@ -39,6 +39,13 @@ services:
         mecanum:=${MECANUM:-False}
         serial_port:=$SERIAL_PORT 
         serial_baudrate:=576000
+
+  rplidar:
+    image: husarion/rplidar:humble-1.0.1-20231219
+    restart: unless-stopped
+    devices:
+      - /dev/ttyRPLIDAR:/dev/ttyUSB0
+    command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-256000}
 
   astra:
     image: husarion/astra:humble-1.0.2-20231206-stable
