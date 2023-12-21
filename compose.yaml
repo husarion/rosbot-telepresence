@@ -1,9 +1,10 @@
 services:
 
   foxglove:
-    image: husarion/foxglove:1.74.1
+    image: husarion/foxglove:1.81.0
     ports:
       - 8080:8080
+      - 8765:8765
     volumes:
       - ./params/RosbotTeleop.json:/foxglove/default-layout.json
     environment:
@@ -11,6 +12,7 @@ services:
       # - DS_PORT=9090
       - DS_TYPE=foxglove-websocket
       - DS_PORT=8765
+      - DS_HOST=foxglove-ds
       - UI_PORT=8080
       - DISABLE_CACHE=true
       - DISABLE_INTERACTION=false
@@ -23,8 +25,6 @@ services:
 
   foxglove-ds:
     image: husarion/foxglove-bridge:humble-0.7.3-20231213
-    ports:
-      - 8765:8765
     command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,connectionGraph,assets]
 
   rosbot:
