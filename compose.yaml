@@ -2,6 +2,7 @@ services:
 
   foxglove:
     image: husarion/foxglove:1.81.0
+    restart: unless-stopped
     ports:
       - 8080:8080
       - 8765:8765
@@ -25,10 +26,12 @@ services:
 
   foxglove-ds:
     image: husarion/foxglove-bridge:humble-0.7.3-20231213
+    restart: unless-stopped
     command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,connectionGraph,assets]
 
   rosbot:
     image: husarion/rosbot:humble-0.11.0-20231211
+    restart: unless-stopped
     devices:
       - ${SERIAL_PORT:?err}
     command: >
@@ -39,6 +42,7 @@ services:
 
   astra:
     image: husarion/astra:humble-1.0.2-20231206-stable
+    restart: unless-stopped
     devices:
       - /dev/bus/usb/
     volumes:
