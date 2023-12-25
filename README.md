@@ -73,6 +73,7 @@ To control the robot, open a teleop interface by typing the following command in
 
 ```bash
 docker compose -f compose.pc.yaml run rviz ros2 run teleop_twist_keyboard teleop_twist_keyboard
+# ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/${ROS_NAMESPACE}
 ```
 
 To turn off run:

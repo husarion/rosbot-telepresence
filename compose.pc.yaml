@@ -15,4 +15,4 @@ services:
       # - NVIDIA_VISIBLE_DEVICES=all # uncomment if you want to use GPU for rendering
       # - NVIDIA_DRIVER_CAPABILITIES=all # uncomment if you want to use GPU for rendering
       # envs for Husarnet setup
-      - ROS_DISCOVERY_SERVER=${ROSBOT_HOSTNAME}:8080
+      - ROS_DISCOVERY_SERVER=${ROSBOT_HOSTNAME}:11811
