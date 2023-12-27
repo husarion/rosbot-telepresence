@@ -24,7 +24,7 @@ depth_roi.y : -1
 depth_roi.width: -1
 depth_roi.height: -1
 
-# depth scale times 
+# depth scale times
 depth_scale : 1
 publish_tf: false
 tf_publish_rate: 10.0

@@ -4,11 +4,14 @@ Manual ROSbot Driving over the Internet with Real-Time Camera Feed
 
 ![foxglove UI](docs/foxglove-ui.png)
 
-## Step 1: Connecting ROSbot and laptop over VPN
+## Quick start
+
+### Step 1: Connecting ROSbot and laptop over VPN
 
 Ensure that both ROSbot 2R and PRO are linked to the same Husarnet VPN network. If they are not follow these steps:
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
+
 2. Connect your laptop to the [Husarnet network](https://husarnet.com/docs). If you are Ubuntu user, just run:
 
    ```bash
@@ -28,11 +31,10 @@ Ensure that both ROSbot 2R and PRO are linked to the same Husarnet VPN network. 
    ```
 
    <!-- > note that `rosbot2r` is a Husarnet hostname that is hardcoded in the [compose.pc.yaml](/compose.pc.yaml) file. If you want a different hostname for your ROSbot remember to change it. -->
- 
 
-## Step 2: Clonning the repo
+### Step 2: Cloning the repo
 
-This repository contains the Docker Compose setup for ROSbot. 
+This repository contains the Docker Compose setup for ROSbot.
 
 SSH to ROSbot first:
 
@@ -43,8 +45,8 @@ ssh husarion@rosbot2r # if rosbot2r is Husarnet hostname you assigned for ROSbot
 And inisde ROSbot's shell execute:
 
 ```bash
-git clone https://github.com/husarion/rosbot-telepresence
-cd rosbot-telepresence 
+git clone -b foxglove https://github.com/husarion/rosbot-telepresence
+cd rosbot-telepresence
 ```
 
 Pull all needed Docker images:
@@ -53,15 +55,15 @@ Pull all needed Docker images:
 docker compose pull
 ```
 
-## Step 3: Flashing the ROSbot Firmware
+### Step 3: Flashing the ROSbot Firmware
 
 Execute in the ROSbot's shell:
 
 ```bash
-./flash_rosbot_firmware.sh
+./flash_firmware.sh
 ```
 
-## Step 4: Launching
+### Step 4: Launching
 
 Execute in the ROSbot's shell:
 
@@ -69,7 +71,7 @@ Execute in the ROSbot's shell:
 docker compose up
 ```
 
-## Step 5: Open the web UI
+### Step 5: Open the web UI
 
 Open the **Google Chrome** browser on your laptop and navigate to:
 
@@ -77,15 +79,15 @@ http://rosbot2r:8080/ui
 
 ![foxglove UI](docs/foxglove-ui.png)
 
-## Usefull tips
+## Useful tips
 
-**1. Checking a datarate**
+### 1. Checking a datarate
 
 To assess the data rate of a video stream being transmitted over the Husarnet VPN (which appears in your OS as the `hnet0` network interface), execute the following:
 
 ```bash
 husarion@rosbot:~$ ifstat -i hnet0
-      wlan0       
+      wlan0
  KB/s in  KB/s out
     6.83   2744.66
     1.67   2659.88
@@ -95,7 +97,7 @@ husarion@rosbot:~$ ifstat -i hnet0
     1.18   2749.64
 ```
 
-**2. Sending uncompressed video frames over the network**
+### 2. Sending uncompressed video frames over the network
 
 If raw image data is being transmitted over the network, you need to perform some [DDS-tunning](https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html) (both on ROSbot and PC):
 
@@ -112,4 +114,3 @@ For configs over VPN:
 sudo sysctl -w net.ipv6.ip6frag_time=3 # 3s
 sudo sysctl -w net.ipv6.ip6frag_high_thresh=134217728 # (128 MB)
 ```
-
