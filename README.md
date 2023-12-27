@@ -2,9 +2,15 @@
 
 Manual ROSbot Driving over the Internet with Real-Time Camera Feed
 
+You can test the robot's telepresence on two branches:
+- [**ros2router**](https://github.com/husarion/rosbot-autonomy/) (rviz2)
+- [**foxglove**](https://github.com/husarion/rosbot-autonomy/tree/foxglove)
+
 ![ROSbot ROS2 user interface](docs/teleop-rosbot.png)
 
-## Step 1: Connecting ROSbot and laptop over VPN
+## Quick start
+
+### Step 1: Connecting ROSbot and laptop over VPN
 
 Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN network. If they are not follow these steps:
 
@@ -27,18 +33,18 @@ Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN netwo
    sudo husarnet join <paste-join-code-here> rosbot2r
    ```
 
-## Step 2: Clonning the repo
+### Step 2: Clonning the repo
 
 This repository contains the Docker Compose setup for both PC and ROSbot. You can clone it to both PC and ROSbot, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
 
 ```bash
 git clone https://github.com/husarion/rosbot-telepresence
-cd rosbot-telepresence 
+cd rosbot-telepresence
 export ROSBOT_HOSTNAME=rosbot2r # Replace with your own Husarnet hostname
 ./sync_with_rosbot.sh $ROSBOT_HOSTNAME
 ```
 
-## Step 3: Flashing the ROSbot Firmware
+### Step 3: Flashing the ROSbot Firmware
 
 SSH to the ROSbot's shell:
 
@@ -52,7 +58,7 @@ and execute:
 ./flash_rosbot_firmware.sh
 ```
 
-## Step 4: Set the `.env`
+### Step 4: Set the `.env`
 
 Edit `.env` file and write down the ROSbot 2R Husarnet hostname here to let the PC part know how to find the ROSbot 2R.
 
@@ -60,9 +66,15 @@ Edit `.env` file and write down the ROSbot 2R Husarnet hostname here to let the 
 ROSBOT_HOSTNAME=rosbot2r
 ```
 
-## Step 5: Launching
+### Step 5: Launching
 
-### PC
+#### ROSbot
+
+```bash
+docker compose up
+```
+
+#### PC
 
 ```bash
 xhost +local:docker && \
@@ -79,12 +91,6 @@ To turn off run:
 
 ```bash
 docker compose -f compose.pc.yaml down
-```
-
-### ROSbot
-
-```bash
-docker compose up
 ```
 
 ## Troubleshooting
@@ -107,13 +113,13 @@ docker compose restart image_compressor
 
 ## Usefull tips
 
-**1. Checking a datarate**
+### 1. Checking a datarate
 
 To assess the data rate of a video stream being transmitted over the Husarnet VPN (which appears in your OS as the `hnet0` network interface), execute the following:
 
 ```bash
 husarion@rosbot:~$ ifstat -i hnet0
-      wlan0       
+      wlan0
  KB/s in  KB/s out
     6.83   2744.66
     1.67   2659.88
@@ -123,7 +129,7 @@ husarion@rosbot:~$ ifstat -i hnet0
     1.18   2749.64
 ```
 
-**2. Sending uncompressed video frames over the network**
+### 2. Sending uncompressed video frames over the network
 
 If raw image data is being transmitted over the network, you need to perform some [DDS-tunning](https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html) (both on ROSbot and PC):
 
@@ -141,7 +147,7 @@ sudo sysctl -w net.ipv6.ip6frag_time=3 # 3s
 sudo sysctl -w net.ipv6.ip6frag_high_thresh=134217728 # (128 MB)
 ```
 
-**3. Using Logitech F710 gamepad**
+### 3. Using Logitech F710 gamepad
 
 Rather than employing the `teleop_twist_keyboard` ROS 2 package, you have the option to use the Logitech F710 gamepad. To utilize it, plug it into your PC's USB port and add these lines to the `compose.pc.yaml`:
 
