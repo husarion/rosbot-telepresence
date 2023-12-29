@@ -42,7 +42,7 @@ SSH to ROSbot first:
 ssh husarion@rosbot2r # if rosbot2r is Husarnet hostname you assigned for ROSbot in the Step 1
 ```
 
-And inisde ROSbot's shell execute:
+And inside ROSbot's shell execute:
 
 ```bash
 git clone -b foxglove https://github.com/husarion/rosbot-telepresence
@@ -78,6 +78,9 @@ Open the **Google Chrome** browser on your laptop and navigate to:
 http://rosbot2r:8080/ui
 
 ![foxglove UI](docs/foxglove-ui.png)
+
+> [!IMPORTANT]
+> Due to efficiency and official manufacturer support, it is recommended to use `foxglove-websocket`. When using `rosbridge-websocket`, it is necessary to edit `Custom Layers` to visualize the robot mesh.
 
 ## Useful tips
 
