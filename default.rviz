@@ -59,7 +59,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep All
         Reliability Policy: Best Effort
-        Value: /camera/color/image_raw
+        Value: /camera/color/image_raw/compressed
       Value: true
   Enabled: true
   Global Options:

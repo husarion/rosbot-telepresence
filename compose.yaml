@@ -30,8 +30,8 @@ services:
     volumes:
       - ./params/astra.yaml:/husarion_utils/astra_params.yaml
     # command: ros2 launch astra_camera astra_mini.launch.py
-    command: tail -f /dev/null
-    # command: ros2 launch /husarion_utils/astra.launch.py
+    # command: tail -f /dev/null
+    command: ros2 launch /husarion_utils/astra.launch.py
         
   ros2router:
     image: husarnet/ros2router:husarnet-api-host
