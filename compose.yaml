@@ -3,6 +3,9 @@ x-common-config:
   network_mode: host
   ipc: host
   restart: always
+
+x-ros-envs:
+  &ros-envs
   environment:
     - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
     - USER
@@ -11,7 +14,9 @@ services:
 
   rosbot:
     image: husarion/rosbot:humble-shm-simple-test
-    <<: *common-config
+    <<: 
+      - *common-config
+      - *ros-envs
     devices:
       - ${SERIAL_PORT:?err}
       # - /dev/bus/usb/ # FTDI
@@ -20,27 +25,31 @@ services:
         mecanum:=${MECANUM:-False}
         serial_port:=$SERIAL_PORT 
         serial_baudrate:=576000
-# namespace:=${ROS_NAMESPACE}
+        namespace:=$ROS_NAMESPACE
 
   astra:
     image: husarion/astra:humble-namespace
-    <<: *common-config
+    <<: 
+      - *common-config
+      - *ros-envs
     devices:
       - /dev/bus/usb/
     volumes:
       - ./params/astra.yaml:/husarion_utils/astra_params.yaml
     # command: ros2 launch astra_camera astra_mini.launch.py
     # command: tail -f /dev/null
-    command: ros2 launch /husarion_utils/astra.launch.py
-        
+    command: >
+      ros2 launch /husarion_utils/astra.launch.py
+        robot_namespace:=$ROS_NAMESPACE
+        device_namespace:=camera
+
   ros2router:
     image: husarnet/ros2router:husarnet-api-host
-    network_mode: host
-    ipc: host
-    restart: always
+    <<: *common-config
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
+      - ROS_NAMESPACE
     # # envs for LAN setup
     #   - ROS_LOCALHOST_ONLY=0
     #   - HUSARNET_PARTICIPANT_ENABLED=false
@@ -49,4 +58,4 @@ services:
       - DISCOVERY_SERVER_LISTENING_PORT=11811
       - DISCOVERY_SERVER_ID=0
       - USER
-# - ROS_NAMESPACE
+

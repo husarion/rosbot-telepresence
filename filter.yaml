@@ -1,9 +1,9 @@
 allowlist:
-  - name: "rt/camera/color/image_raw/theora"
+  - name: "rt/{{env ROS_NAMESPACE}}/camera/color/image_raw/theora"
     type: "theora_image_transport::msg::dds_::Packet_"
-  - name: "rt/camera/color/image_raw/compressed"
+  - name: "rt/{{env ROS_NAMESPACE}}/camera/color/image_raw/compressed"
     type: "sensor_msgs::msg::dds_::CompressedImage_"
-  - name: "rt/camera/color/image_raw"
+  - name: "rt/{{env ROS_NAMESPACE}}/camera/color/image_raw"
     type: "sensor_msgs::msg::dds_::Image_"
   - name: "rt/{{env ROS_NAMESPACE}}/cmd_vel"
     type: "geometry_msgs::msg::dds_::Twist_"
