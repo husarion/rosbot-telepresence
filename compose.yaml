@@ -8,6 +8,7 @@ x-ros-envs:
   &ros-envs
   environment:
     - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
+    - ROBOT_NAMESPACE=$ROSBOT_HOSTNAME
     - USER
 
 services:
@@ -24,9 +25,9 @@ services:
       ros2 launch rosbot_bringup combined.launch.py 
         mecanum:=${MECANUM:-False}
         serial_port:=$SERIAL_PORT 
+        namespace:=${ROSBOT_HOSTNAME:-robot}
         serial_baudrate:=576000
-        namespace:=$ROS_NAMESPACE
-
+        
   astra:
     image: husarion/astra:humble-namespace
     <<: 
@@ -36,20 +37,18 @@ services:
       - /dev/bus/usb/
     volumes:
       - ./params/astra.yaml:/husarion_utils/astra_params.yaml
-    # command: ros2 launch astra_camera astra_mini.launch.py
-    # command: tail -f /dev/null
     command: >
       ros2 launch /husarion_utils/astra.launch.py
-        robot_namespace:=$ROS_NAMESPACE
+        robot_namespace:=${ROSBOT_HOSTNAME:-robot}
         device_namespace:=camera
 
   ros2router:
-    image: husarnet/ros2router:husarnet-api-host
+    image: husarnet/ros2router:filter-env
     <<: *common-config
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
-      - ROS_NAMESPACE
+      - ROSBOT_HOSTNAME=${ROSBOT_HOSTNAME:-robot}
     # # envs for LAN setup
     #   - ROS_LOCALHOST_ONLY=0
     #   - HUSARNET_PARTICIPANT_ENABLED=false

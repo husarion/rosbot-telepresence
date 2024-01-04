@@ -1,10 +1,10 @@
 allowlist:
-  - name: "rt/{{env ROS_NAMESPACE}}/camera/color/image_raw/theora"
+  - name: "rt/{{env ROSBOT_HOSTNAME}}/camera/color/image_raw/theora"
     type: "theora_image_transport::msg::dds_::Packet_"
-  - name: "rt/{{env ROS_NAMESPACE}}/camera/color/image_raw/compressed"
+  - name: "rt/{{env ROSBOT_HOSTNAME}}/camera/color/image_raw/compressed"
     type: "sensor_msgs::msg::dds_::CompressedImage_"
-  - name: "rt/{{env ROS_NAMESPACE}}/camera/color/image_raw"
+  - name: "rt/{{env ROSBOT_HOSTNAME}}/camera/color/image_raw"
     type: "sensor_msgs::msg::dds_::Image_"
-  - name: "rt/{{env ROS_NAMESPACE}}/cmd_vel"
+  - name: "rt/{{env ROSBOT_HOSTNAME}}/cmd_vel"
     type: "geometry_msgs::msg::dds_::Twist_"
 blocklist: []
