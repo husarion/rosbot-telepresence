@@ -59,7 +59,7 @@ Visualization Manager:
         Durability Policy: Volatile
         History Policy: Keep Last
         Reliability Policy: Best Effort
-        Value: /rosbot2r/camera/color/image_raw/compressed
+        Value: /rosbot2r/camera/color/image_raw/theora
       Value: true
   Enabled: true
   Global Options:
@@ -145,5 +145,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1850
-  X: 70
-  Y: 27
+  X: 747
+  Y: 398

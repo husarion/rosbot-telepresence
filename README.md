@@ -160,3 +160,21 @@ Rather than employing the `teleop_twist_keyboard` ROS 2 package, you have the op
 ```bash
 docker compose -f compose.pc.yaml up joy2twist
 ```
+
+## Troubleshooting
+
+###  `Packet was not a Theora header` warning
+
+The log from your computer where you launched `compose.pc.yaml` may contain the following message:
+
+```
+[WARN] [1704479601.591809892] [rviz]: [theora] Packet was not a Theora header
+```
+
+Due to an issue in the theora codec, headers are probably sent only at the start. If you've initiated `compose.pc.yaml` following `compose.yaml`, it's essential to restart the `astra` service on ROSbot.
+
+To do so, execute in the ROSbot's terminal in the `/home/husarion/rosbot-telepresence` folder the following line:
+
+```bash
+docker compose restart astra
+```
