@@ -1,18 +1,43 @@
+x-common-config:
+  &common-config
+  network_mode: host
+  ipc: host
+  restart: unless-stopped
+
 services:
 
   rviz:
-    image: husarion/rviz2:iron-12.4.5-20231213
-    network_mode: host
-    ipc: host
-    restart: unless-stopped
+    image: husarion/rviz2:iron-12.4.5-20240104
+    <<: *common-config
     # runtime: nvidia # uncomment if you want to use GPU for rendering
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - ./default.rviz:/default.rviz
       - ./default.rviz:/root/.rviz2/default.rviz
     environment:
+      - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
+      - USER
       - DISPLAY=${DISPLAY:?err}
       - LIBGL_ALWAYS_SOFTWARE=1 # comment if you want to use CPU for rendering
       # - NVIDIA_VISIBLE_DEVICES=all # uncomment if you want to use GPU for rendering
       # - NVIDIA_DRIVER_CAPABILITIES=all # uncomment if you want to use GPU for rendering
       # envs for Husarnet setup
+      # - ROS_DISCOVERY_SERVER=${ROSBOT_HOSTNAME}:11811
+      # - FASTRTPS_DEFAULT_PROFILES_FILE=/superclient.xml
+    command: rviz2 -d /default.rviz
+
+  ros2router:
+    image: husarnet/ros2router:1.6.1
+    <<: *common-config
+    environment:
+      - USER
+      # ==========================
+      # envs for Husarnet setup
+      # ==========================
       - ROS_DISCOVERY_SERVER=${ROSBOT_HOSTNAME}:11811
+      - DISCOVERY_SERVER_ID=10 # need to be different as ros2router on ROSbot
+      # ==========================
+      # envs for LAN setup
+      # ==========================
+      # - ROS_LOCALHOST_ONLY=0
+      # - HUSARNET_PARTICIPANT_ENABLED=false

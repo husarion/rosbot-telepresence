@@ -2,7 +2,7 @@ x-common-config:
   &common-config
   network_mode: host
   ipc: host
-  restart: always
+  restart: unless-stopped
 
 x-ros-envs:
   &ros-envs
@@ -14,7 +14,7 @@ x-ros-envs:
 services:
 
   rosbot:
-    image: husarion/rosbot:humble-shm-simple-test
+    image: husarion/rosbot:humble-0.12.0-20240104
     <<: 
       - *common-config
       - *ros-envs
@@ -29,7 +29,7 @@ services:
         serial_baudrate:=576000
         
   astra:
-    image: husarion/astra:humble-namespace
+    image: husarion/astra:humble-1.1.0-20240104
     <<: 
       - *common-config
       - *ros-envs
@@ -43,18 +43,20 @@ services:
         device_namespace:=camera
 
   ros2router:
-    image: husarnet/ros2router:filter-env
+    image: husarnet/ros2router:1.6.1
     <<: *common-config
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
       - ROSBOT_HOSTNAME=${ROSBOT_HOSTNAME:-robot}
-    # # envs for LAN setup
-    #   - ROS_LOCALHOST_ONLY=0
-    #   - HUSARNET_PARTICIPANT_ENABLED=false
-    #   - USER
-    # envs for Husarnet setup
+      - USER
+      # ==========================
+      # envs for Husarnet setup
+      # ==========================
       - DISCOVERY_SERVER_LISTENING_PORT=11811
       - DISCOVERY_SERVER_ID=0
-      - USER
-
+      # ==========================
+      # envs for LAN setup
+      # ==========================
+      # - ROS_LOCALHOST_ONLY=0
+      # - HUSARNET_PARTICIPANT_ENABLED=false
