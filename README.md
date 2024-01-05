@@ -76,7 +76,7 @@ ROBOT_NAMESPACE=rosbot2r
 docker compose up
 ```
 
-## Step 6: Launching interface on PC
+### Step 6: Launching interface on PC
 
 At first start the ROS 2 Router:
 
@@ -84,7 +84,9 @@ At first start the ROS 2 Router:
 docker compose -f compose.pc.yaml up ros2router -d
 ```
 
-### Docker
+And run `rviz2` and  `teleop_twist_keyboard` directly on the host OS or in Docker (choose one option):
+
+#### Docker
 
 1. Running `rviz2`:
 
@@ -99,7 +101,9 @@ docker compose -f compose.pc.yaml up rviz -d
 docker compose -f compose.pc.yaml run --rm -it rviz ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r
 ```
 
-### Host
+#### Host
+
+1. Running `rviz2`:
 
 ```bash
 export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
