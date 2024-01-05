@@ -17,7 +17,6 @@ services:
     image: husarnet/ros2router:1.6.2
     volumes:
       - ./filter.yaml:/filter.yaml
-      - ./config_daemon.sh:/config_daemon.sh
     environment:
       - VIDEO_CODEC=theora # can be `theora` or `compressed`
       - ROBOT_NAMESPACE=${ROBOT_NAMESPACE:-robot}
