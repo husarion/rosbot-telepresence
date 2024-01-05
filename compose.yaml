@@ -8,7 +8,7 @@ x-ros-envs:
   &ros-envs
   environment:
     - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
-    - ROBOT_NAMESPACE=$ROSBOT_HOSTNAME
+    - ROBOT_NAMESPACE=${ROBOT_NAMESPACE:-robot}
     - USER
 
 services:
@@ -25,7 +25,7 @@ services:
       ros2 launch rosbot_bringup combined.launch.py 
         mecanum:=${MECANUM:-False}
         serial_port:=$SERIAL_PORT 
-        namespace:=${ROSBOT_HOSTNAME:-robot}
+        namespace:=${ROBOT_NAMESPACE:-robot}
         serial_baudrate:=576000
         
   astra:
@@ -39,7 +39,7 @@ services:
       - ./params/astra.yaml:/husarion_utils/astra_params.yaml
     command: >
       ros2 launch /husarion_utils/astra.launch.py
-        robot_namespace:=${ROSBOT_HOSTNAME:-robot}
+        robot_namespace:=${ROBOT_NAMESPACE:-robot}
         device_namespace:=camera
 
   ros2router:
@@ -48,7 +48,7 @@ services:
     volumes:
       - ./filter.yaml:/filter.yaml
     environment:
-      - ROSBOT_HOSTNAME=${ROSBOT_HOSTNAME:-robot}
+      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE:-robot}
       - USER
       # ==========================
       # envs for Husarnet setup

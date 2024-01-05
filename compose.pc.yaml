@@ -21,9 +21,6 @@ services:
       - LIBGL_ALWAYS_SOFTWARE=1 # comment if you want to use CPU for rendering
       # - NVIDIA_VISIBLE_DEVICES=all # uncomment if you want to use GPU for rendering
       # - NVIDIA_DRIVER_CAPABILITIES=all # uncomment if you want to use GPU for rendering
-      # envs for Husarnet setup
-      # - ROS_DISCOVERY_SERVER=${ROSBOT_HOSTNAME}:11811
-      # - FASTRTPS_DEFAULT_PROFILES_FILE=/superclient.xml
     command: rviz2 -d /default.rviz
 
   ros2router:
@@ -34,7 +31,7 @@ services:
       # ==========================
       # envs for Husarnet setup
       # ==========================
-      - ROS_DISCOVERY_SERVER=${ROSBOT_HOSTNAME}:11811
+      - ROS_DISCOVERY_SERVER=${ROBOT_NAMESPACE}:11811
       - DISCOVERY_SERVER_ID=10 # need to be different as ros2router on ROSbot
       # ==========================
       # envs for LAN setup
