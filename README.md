@@ -6,7 +6,7 @@ Manual ROSbot Driving over the Internet with Real-Time Camera Feed
 
 ## Step 1: Connecting ROSbot and laptop over VPN
 
-Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN network. If they are not follow these steps:
+Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the same Husarnet VPN network. If they are not follow these steps:
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
 2. Connect your laptop to the [Husarnet network](https://husarnet.com/docs). If you are Ubuntu user, just run:
@@ -27,6 +27,9 @@ Ensure that both ROSbot 2R and your laptop linked to the same Husarnet VPN netwo
    sudo husarnet join <paste-join-code-here> rosbot2r
    ```
 
+   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file
+
+
 ## Step 2: Clonning the repo
 
 This repository contains the Docker Compose setup for both PC and ROSbot. You can clone it to both PC and ROSbot, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
@@ -43,7 +46,7 @@ export ROSBOT_HOSTNAME=rosbot2r # Replace with your own Husarnet hostname
 SSH to the ROSbot's shell:
 
 ```bash
-ssh husarion@$ROSBOT_ADDR
+ssh husarion@$ROSBOT_HOSTNAME
 ```
 
 and execute:
@@ -57,55 +60,52 @@ and execute:
 Edit `.env` file and write down the ROSbot 2R Husarnet hostname here to let the PC part know how to find the ROSbot 2R.
 
 ```bash
-ROSBOT_HOSTNAME=rosbot2r
+ROBOT_NAMESPACE=rosbot2r
 ```
 
-## Step 5: Launching
-
-### PC
-
-```bash
-xhost +local:docker && \
-docker compose -f compose.pc.yaml up -d
-```
-
-To control the robot, open a teleop interface by typing the following command in a new terminal:
-
-```bash
-docker compose -f compose.pc.yaml run rviz ros2 run teleop_twist_keyboard teleop_twist_keyboard
-
-# export FASTRTPS_DEFAULT_PROFILES_FILE=./shm-only.xml
-# ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r
-```
-
-To turn off run:
-
-```bash
-docker compose -f compose.pc.yaml down
-```
-
-### ROSbot
+### Step 5: Launching containers on ROSbot
 
 ```bash
 docker compose up
 ```
 
-## Troubleshooting
+## Step 6: Launching interface on PC
 
-###  `Packet was not a Theora header` warning
-
-The log from your computer where you launched `compose.pc.yaml` may contain the following message:
-
-```
-[image_republisher]: [theora] Packet was not a Theora header
-```
-
-Due to an issue in the theora codec, headers are probably sent only at the start. If you've initiated `compose.pc.yaml` following `compose.yaml`, it's essential to restart the image_compressor service.
-
-To do so, execute in the ROSbot's terminal in the `/home/husarion/rosbot-telepresence` folder the following line:
+At first start the ROS 2 Router:
 
 ```bash
-docker compose restart image_compressor
+docker compose -f compose.pc.yaml up ros2router -d
+```
+
+### Docker
+
+1. Running `rviz2`:
+
+```bash
+xhost +local:docker && \
+docker compose -f compose.pc.yaml up rviz -d
+```
+
+2. Running `teleop_twist_keyboard`:
+
+```bash
+docker compose -f compose.pc.yaml run --rm -it rviz ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r
+```
+
+### Host
+
+1. Running `rviz2`:
+
+```bash
+export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
+rviz2 -d ./default.rviz
+```
+
+2. Running `teleop_twist_keyboard`:
+
+```bash
+export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
+ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r
 ```
 
 ## Usefull tips
@@ -146,18 +146,8 @@ sudo sysctl -w net.ipv6.ip6frag_high_thresh=134217728 # (128 MB)
 
 **3. Using Logitech F710 gamepad**
 
-Rather than employing the `teleop_twist_keyboard` ROS 2 package, you have the option to use the Logitech F710 gamepad. To utilize it, plug it into your PC's USB port and add these lines to the `compose.pc.yaml`:
+Rather than employing the `teleop_twist_keyboard` ROS 2 package, you have the option to use the Logitech F710 gamepad. To utilize it, plug it into your PC's USB port and launch the `joy2twist` container on your PC:
 
-```yaml
-joy2twist:
-   image: husarion/joy2twist:iron
-   devices:
-      - /dev/input
-   volumes:
-      - ./params/joy2twist.yaml:/params.yaml
-   environment:
-      - ROS_DISCOVERY_SERVER=${ROSBOT_HOSTNAME}:11811
-   command: >
-      ros2 launch joy2twist gamepad_controller.launch.py
-         joy2twist_params_file:=/params.yaml
+```bash
+docker compose -f compose.pc.yaml up joy2twist
 ```
