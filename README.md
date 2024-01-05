@@ -2,7 +2,7 @@
 
 Manual ROSbot Driving over the Internet with Real-Time Camera Feed
 
-![ROSbot ROS2 user interface](docs/teleop-rosbot.png)
+![ROSbot ROS2 user interface](docs/rosbot-rviz.png)
 
 ## Step 1: Connecting ROSbot and laptop over VPN
 
