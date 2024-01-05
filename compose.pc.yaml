@@ -23,7 +23,7 @@ x-ros-envs:
 services:
 
   ros2router:
-    image: husarnet/ros2router:1.6.2
+    image: husarnet/ros2router:1.6.3
     <<: *common-config
     environment:
       - USER
