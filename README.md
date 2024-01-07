@@ -2,7 +2,7 @@
 
 Manual ROSbot Driving over the Internet with Real-Time Camera Feed
 
-![ROSbot ROS2 user interface](docs/rosbot-rviz.png)
+![ROSbot ROS2 user interface](.docs/rosbot-rviz.png)
 
 There are two different setups on two eeparate branches:
 - [**ros2router**](https://github.com/husarion/rosbot-telepresence/tree/ros2router) (the current one)
@@ -11,7 +11,7 @@ There are two different setups on two eeparate branches:
 
 ## Quick start
 
-### Step 1: Connecting ROSbot and laptop over VPN
+### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
 
 Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the same Husarnet VPN network. If they are not follow these steps:
 
@@ -37,7 +37,7 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
    > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file
 
 
-### Step 2: Clonning the repo
+### 📁 Step 2: Clonning the Repo
 
 This repository contains the Docker Compose setup for both PC and ROSbot. You can clone it to both PC and ROSbot, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
 
@@ -48,35 +48,13 @@ export ROSBOT_HOSTNAME=rosbot2r # Replace with your own Husarnet hostname
 ./sync_with_rosbot.sh $ROSBOT_HOSTNAME
 ```
 
-### Step 3: Flashing the ROSbot Firmware
-
-SSH to the ROSbot's shell:
-
-```bash
-ssh husarion@$ROSBOT_HOSTNAME
-```
-
-and execute:
-
-```bash
-./flash_rosbot_firmware.sh
-```
-
-### Step 4: Set the `.env`
-
 Edit `.env` file and write down the ROSbot 2R Husarnet hostname here to let the PC part know how to find the ROSbot 2R.
 
 ```bash
 ROBOT_NAMESPACE=rosbot2r
 ```
 
-### Step 5: Launching containers on ROSbot
-
-```bash
-docker compose up
-```
-
-### Step 6: Launching interface on PC
+### 💻 Step 3: Launching the Control Interface on PC
 
 At first start the ROS 2 Router:
 
@@ -92,7 +70,7 @@ And run `rviz2` and  `teleop_twist_keyboard` directly on the host OS or in Docke
 
 ```bash
 xhost +local:docker && \
-docker compose -f compose.pc.yaml up rviz -d
+docker compose -f compose.pc.yaml up rviz
 ```
 
 2. Running `teleop_twist_keyboard`:
@@ -115,6 +93,26 @@ rviz2 -d ./default.rviz
 ```bash
 export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
 ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r
+```
+
+### ⚙️ Step 4: Flashing the ROSbot Firmware
+
+SSH to the ROSbot's shell:
+
+```bash
+ssh husarion@$ROSBOT_HOSTNAME
+```
+
+and execute:
+
+```bash
+./flash_rosbot_firmware.sh
+```
+
+### 🤖 Step 5: Launching the Containers on ROSbot
+
+```bash
+docker compose up
 ```
 
 ## Usefull tips
@@ -160,6 +158,8 @@ Rather than employing the `teleop_twist_keyboard` ROS 2 package, you have the op
 ```bash
 docker compose -f compose.pc.yaml up joy2twist
 ```
+
+![ROSbot control with gamepad](.docs/joy2twist.png)
 
 ## Troubleshooting
 
