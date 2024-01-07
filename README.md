@@ -4,7 +4,7 @@ Manual ROSbot Driving over the Internet with Real-Time Camera Feed
 
 ![ROSbot ROS2 user interface](.docs/rosbot-rviz.png)
 
-There are two different setups on two eeparate branches:
+There are two different setups on two separate branches:
 - [**ros2router**](https://github.com/husarion/rosbot-telepresence/tree/ros2router) (the current one)
 - [**foxglove**](https://github.com/husarion/rosbot-telepresence/tree/foxglove)
 
