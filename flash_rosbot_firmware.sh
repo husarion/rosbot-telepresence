@@ -20,7 +20,7 @@ esac
 if ! command -v /usr/bin/yq &> /dev/null; then
     # Check if the user is root
     if [ "$EUID" -ne 0 ]; then
-        echo "Please run as root to install yq"
+        echo "Please run as root to install yq (required for this script)"
         exit 1
     fi
     
@@ -30,14 +30,12 @@ if ! command -v /usr/bin/yq &> /dev/null; then
     echo "done!"
     echo "Now rerun the script as a normal user"
     exit 0
-else
-    echo "/usr/bin/yq is already installed"
 fi
 
-echo "stopping all running containers"
-docker stop rosbot
+echo "Stopping all running containers"
+docker ps -q | xargs -r docker stop
 
-echo "flashing the firmware for STM32 microcontroller in ROSbot"
+echo "Flashing the firmware for STM32 microcontroller in ROSbot"
 docker run \
 --rm -it --privileged \
 $(yq .services.rosbot.image compose.yaml) \
