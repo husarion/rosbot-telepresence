@@ -7,7 +7,7 @@ services:
       - 8080:8080
       - 8765:8765
     volumes:
-      - ./params/RosbotTeleopLidar.json:/foxglove/default-layout.json
+      - ./params/RosbotTeleopFull.json:/foxglove/default-layout.json
     environment:
       # - DS_TYPE=rosbridge-websocket
       # - DS_PORT=9090
@@ -27,10 +27,10 @@ services:
   foxglove-ds:
     image: husarion/foxglove-bridge:humble-0.7.3-20231222
     restart: unless-stopped
-    command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,connectionGraph,assets]
+    command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,parameters,parametersSubscribe,services,connectionGraph,assets]
 
   rosbot:
-    image: husarion/rosbot:humble-0.11.0-20231211
+    image: husarion/rosbot:humble-0.12.0-20240104
     restart: unless-stopped
     devices:
       - ${SERIAL_PORT:?err}
@@ -41,17 +41,17 @@ services:
         serial_baudrate:=576000
 
   rplidar:
-    image: husarion/rplidar:humble-1.0.1-20231219
+    image: husarion/rplidar:humble-1.0.1-20240104
     restart: unless-stopped
     devices:
       - /dev/ttyRPLIDAR:/dev/ttyUSB0
     command: ros2 launch sllidar_ros2 sllidar_launch.py serial_baudrate:=${LIDAR_BAUDRATE:-256000}
 
   astra:
-    image: husarion/astra:humble-1.0.2-20231206-stable
+    image: husarion/astra:humble-1.1.0-20240104
     restart: unless-stopped
     devices:
       - /dev/bus/usb/
     volumes:
-      - ./params/astra.yaml:/ros2_ws/install/astra_camera/share/astra_camera/params/astra_mini_params.yaml
-    command: ros2 launch astra_camera astra_mini.launch.py
+      - ./params/astra.yaml:/husarion_utils/astra_params.yaml
+    command: ros2 launch /husarion_utils/astra.launch.py

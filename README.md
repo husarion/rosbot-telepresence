@@ -6,7 +6,7 @@ Manual ROSbot Driving over the Internet with Real-Time Camera Feed
 
 ## Quick start
 
-### Step 1: Connecting ROSbot and laptop over VPN
+### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
 
 Ensure that both ROSbot 2R and PRO are linked to the same Husarnet VPN network. If they are not follow these steps:
 
@@ -30,9 +30,7 @@ Ensure that both ROSbot 2R and PRO are linked to the same Husarnet VPN network. 
    sudo husarnet join <paste-join-code-here> rosbot2r
    ```
 
-   <!-- > note that `rosbot2r` is a Husarnet hostname that is hardcoded in the [compose.pc.yaml](/compose.pc.yaml) file. If you want a different hostname for your ROSbot remember to change it. -->
-
-### Step 2: Cloning the repo
+### 📁 Step 2: Clonning the Repo
 
 This repository contains the Docker Compose setup for ROSbot.
 
@@ -46,7 +44,7 @@ And inside ROSbot's shell execute:
 
 ```bash
 git clone -b foxglove https://github.com/husarion/rosbot-telepresence
-cd rosbot-telepresence
+cd rosbot-telepresence/
 ```
 
 Pull all needed Docker images:
@@ -55,15 +53,15 @@ Pull all needed Docker images:
 docker compose pull
 ```
 
-### Step 3: Flashing the ROSbot Firmware
+### ⚙️ Step 4: Flashing the ROSbot Firmware
 
 Execute in the ROSbot's shell:
 
 ```bash
-./flash_firmware.sh
+./flash_rosbot_firmware.sh
 ```
 
-### Step 4: Launching
+### 🤖 Step 5: Launching
 
 Execute in the ROSbot's shell:
 
@@ -71,7 +69,7 @@ Execute in the ROSbot's shell:
 docker compose up
 ```
 
-### Step 5: Open the web UI
+### 💻 Step 5: Open the web UI
 
 Open the **Google Chrome** browser on your laptop and navigate to:
 

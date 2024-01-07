@@ -1,31 +1,44 @@
-camera_name : "camera"
-color_width: 320
-color_height: 240
-color_fps: 30
-enable_color: true
-
-# depth camera width/height/FPS
-depth_width: 640
-depth_height: 480
-depth_fps: 30
-enable_depth: false
-
-# open depth to color alignment （hardware alignment）
-depth_align: false
-serial_number: ""
-number_of_devices: 1
-
-color_roi.x : -1
-color_roi.y : -1
-color_roi.width: -1
-color_roi.height: -1
-depth_roi.x : -1
-depth_roi.y : -1
-depth_roi.width: -1
-depth_roi.height: -1
-
-# depth scale times
-depth_scale : 1
-publish_tf: false
-tf_publish_rate: 10.0
-reconnect_timeout: 6.0
+---
+/**:
+  ros__parameters:
+    camera_name: camera
+    depth_registration: false
+    serial_number: ''
+    device_num: 1
+    vendor_id: '0x2bc5'
+    product_id: ''
+    enable_point_cloud: false
+    enable_colored_point_cloud: false
+    point_cloud_qos: default
+    connection_delay: 100
+    color_width: 320
+    color_height: 240
+    color_fps: 30
+    enable_color: true
+    flip_color: false
+    color_qos: default
+    color_camera_info_qos: default
+    depth_width: 640
+    depth_height: 480
+    depth_fps: 30
+    enable_depth: false
+    flip_depth: false
+    depth_qos: default
+    depth_camera_info_qos: default
+    ir_width: 640
+    ir_height: 480
+    ir_fps: 30
+    enable_ir: false
+    flip_ir: false
+    ir_qos: default
+    ir_camera_info_qos: default
+    publish_tf: true
+    tf_publish_rate: 10.0
+    ir_info_url: ''
+    color_info_url: ''
+    color_depth_synchronization: false
+    oni_log_level: verbose
+    oni_log_to_console: false
+    oni_log_to_file: false
+    enable_d2c_viewer: false
+    enable_publish_extrinsic: false
