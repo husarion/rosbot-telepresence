@@ -2,7 +2,11 @@
 
 Manual ROSbot Driving over the Internet with Real-Time Camera Feed
 
-![foxglove UI](docs/foxglove-ui.png)
+![foxglove UI](.docs/foxglove-ui.png)
+
+There are two different setups on two separate branches:
+- [**ros2router**](https://github.com/husarion/rosbot-telepresence/tree/ros2router)
+- [**foxglove**](https://github.com/husarion/rosbot-telepresence/tree/foxglove) (the current one)
 
 ## Quick start
 
