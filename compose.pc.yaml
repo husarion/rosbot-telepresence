@@ -1,18 +1,64 @@
+x-common-config:
+  &common-config
+  network_mode: host
+  ipc: host
+  restart: unless-stopped
+
+x-cpu-config:
+  &cpu-config
+  env_file: .env.cpu
+
+x-gpu-config:
+  &gpu-config
+  runtime: nvidia
+  env_file: .env.gpu
+
+x-ros-envs:
+  &ros-envs
+  environment:
+    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
+    - ROBOT_NAMESPACE=${ROBOT_NAMESPACE:-robot}
+    - USER
+
 services:
 
+  ros2router:
+    image: husarnet/ros2router:1.6.3
+    <<: *common-config
+    environment:
+      - USER
+      # ==========================
+      # envs for Husarnet setup
+      # ==========================
+      - ROS_DISCOVERY_SERVER=${ROBOT_NAMESPACE}:11811
+      - DISCOVERY_SERVER_ID=10 # need to be different as ros2router on ROSbot
+      # ==========================
+      # envs for LAN setup
+      # ==========================
+      # - ROS_LOCALHOST_ONLY=0
+      # - HUSARNET_PARTICIPANT_ENABLED=false
+
   rviz:
-    image: husarion/rviz2:iron-12.4.5-20231213
-    network_mode: host
-    ipc: host
-    restart: always
-    # runtime: nvidia # uncomment if you want to use GPU for rendering
+    image: husarion/rviz2:iron-12.4.5-20240104
+    <<: 
+      - *common-config
+      - *ros-envs
+      - *cpu-config
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - ./default.rviz:/root/.rviz2/default.rviz
-    environment:
-      - DISPLAY=${DISPLAY:?err}
-      - LIBGL_ALWAYS_SOFTWARE=1 # comment if you want to use CPU for rendering
-      # - NVIDIA_VISIBLE_DEVICES=all # uncomment if you want to use GPU for rendering
-      # - NVIDIA_DRIVER_CAPABILITIES=all # uncomment if you want to use GPU for rendering
-      # envs for Husarnet setup
-      - ROS_DISCOVERY_SERVER=${ROSBOT_HOSTNAME}:8080
+      - ./default.rviz:/default.rviz
+    command: rviz2 -d /default.rviz
+
+  joy2twist:
+    image: husarion/joy2twist:humble-1.0.0-20240105
+    <<: 
+      - *common-config
+      - *ros-envs
+    devices:
+      - /dev/input
+    volumes:
+      - ./params/joy2twist.yaml:/params.yaml
+    command: >
+      ros2 launch joy2twist gamepad_controller.launch.py
+        joy2twist_params_file:=/params.yaml
+        namespace:=${ROBOT_NAMESPACE}

@@ -2,15 +2,43 @@ x-common-config:
   &common-config
   network_mode: host
   ipc: host
-  restart: always
+  restart: unless-stopped
+
+x-ros-envs:
+  &ros-envs
   environment:
     - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
+    - ROBOT_NAMESPACE=${ROBOT_NAMESPACE:-robot}
+    - USER
 
 services:
 
-  rosbot:
-    image: husarion/rosbot:humble-0.11.0-20231211
+  ros2router:
+    image: husarnet/ros2router:1.6.3
     <<: *common-config
+    volumes:
+      - ./filter.yaml:/filter.yaml
+    environment:
+      - VIDEO_CODEC=theora # can be `theora` or `compressed`
+      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE:-robot}
+      - USER
+      # ==========================
+      # envs for Husarnet setup
+      # ==========================
+      - DISCOVERY_SERVER_LISTENING_PORT=11811
+      - DISCOVERY_SERVER_ID=0
+      # ==========================
+      # envs for LAN setup
+      # ==========================
+      # - ROS_LOCALHOST_ONLY=0
+      # - HUSARNET_PARTICIPANT_ENABLED=false
+    # entrypoint: tail -f /dev/null
+
+  rosbot:
+    image: husarion/rosbot:humble-0.12.0-20240104
+    <<: 
+      - *common-config
+      - *ros-envs
     devices:
       - ${SERIAL_PORT:?err}
       # - /dev/bus/usb/ # FTDI
@@ -18,29 +46,19 @@ services:
       ros2 launch rosbot_bringup combined.launch.py 
         mecanum:=${MECANUM:-False}
         serial_port:=$SERIAL_PORT 
+        namespace:=${ROBOT_NAMESPACE:-robot}
         serial_baudrate:=576000
-
+        
   astra:
-    image: husarion/astra:humble-1.0.2-20231206-stable
-    <<: *common-config
+    image: husarion/astra:humble-1.1.0-20240104
+    <<: 
+      - *common-config
+      - *ros-envs
     devices:
       - /dev/bus/usb/
     volumes:
-      - ./params/astra.yaml:/ros2_ws/install/astra_camera/share/astra_camera/params/astra_mini_params.yaml
-    command: ros2 launch astra_camera astra_mini.launch.py
-        
-  ros2router:
-    image: husarnet/ros2router:release-1.5.0
-    network_mode: host
-    ipc: host
-    restart: always
-    volumes:
-      - ./filter.yaml:/filter.yaml
-    environment:
-    # # envs for LAN setup
-    #   - ROS_LOCALHOST_ONLY=0
-    #   - USE_HUSARNET=false
-    # envs for Husarnet setup
-      - ROS_LOCALHOST_ONLY=1
-      - DISCOVERY_SERVER_LISTENING_PORT=8080
-      - DISCOVERY_SERVER_ID=0
+      - ./params/astra.yaml:/husarion_utils/astra_params.yaml
+    command: >
+      ros2 launch /husarion_utils/astra.launch.py
+        robot_namespace:=${ROBOT_NAMESPACE:-robot}
+        device_namespace:=camera
