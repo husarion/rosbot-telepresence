@@ -25,7 +25,7 @@ services:
   #   command: ros2 launch rosbridge_server rosbridge_websocket_launch.xml
 
   foxglove-ds:
-    image: husarion/foxglove-bridge:humble-0.7.3-20231222
+    image: husarion/foxglove-bridge:humble-0.7.3-20240108
     restart: unless-stopped
     command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,parameters,parametersSubscribe,services,connectionGraph,assets]
 
