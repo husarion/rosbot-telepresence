@@ -14,9 +14,9 @@
     # The following map is suited for Logitech F710
     button_index_map:
       axis:
-        angular_z: 0 # Left joystick
-        linear_x: 3 # Right joystick
-        linear_y: 2 # Right joystick
+        angular_z: 2 # Right joystick
+        linear_x: 1 # Left joystick
+        linear_y: 0 # Left joystick
       dead_man_switch: 4 # LB
       fast_mode: 7 # RT
       slow_mode: 5 # RB
