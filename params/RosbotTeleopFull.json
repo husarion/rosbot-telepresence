@@ -119,12 +119,12 @@
     "3D!1hjkoi9": {
       "cameraState": {
         "perspective": true,
-        "distance": 1.4619545302559598,
+        "distance": 1.4619545302559587,
         "phi": 79.0089306132632,
         "thetaOffset": 88.88640568804543,
         "targetOffset": [
-          0.7722745160857701,
-          0.04105988295199059,
+          0.7722908390843872,
+          0.0402201506065365,
           2.2851146762355585e-17
         ],
         "target": [
@@ -143,7 +143,9 @@
         "far": 5000
       },
       "followMode": "follow-pose",
-      "scene": {},
+      "scene": {
+        "meshUpAxis": "z_up"
+      },
       "transforms": {
         "frame:body_link": {
           "visible": false
@@ -215,7 +217,7 @@
           "cameraInfoTopic": "/camera/color/camera_info"
         },
         "/robot_description": {
-          "visible": false
+          "visible": true
         },
         "/scan": {
           "visible": true,
@@ -226,24 +228,7 @@
           "explicitAlpha": 1
         }
       },
-      "layers": {
-        "c3322a52-ed75-47c6-aa20-4eccffa91a76": {
-          "visible": true,
-          "frameLocked": true,
-          "label": "URDF",
-          "instanceId": "c3322a52-ed75-47c6-aa20-4eccffa91a76",
-          "layerId": "foxglove.Urdf",
-          "sourceType": "url",
-          "url": "http://rosbot2r:8080/rosbot.urdf",
-          "filePath": "",
-          "parameter": "",
-          "topic": "",
-          "framePrefix": "",
-          "displayMode": "auto",
-          "fallbackColor": "#ffffff",
-          "order": 1
-        }
-      },
+      "layers": {},
       "publish": {
         "type": "point",
         "poseTopic": "/move_base_simple/goal",
