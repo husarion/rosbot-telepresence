@@ -84,7 +84,7 @@ And run `rviz2` and  `teleop_twist_keyboard` directly on the host OS or in Docke
 
    ```bash
    export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
-   rviz2 -d ./default.rviz
+   rviz2 -d ./params/default.rviz
    ```
 
 2. Running `teleop_twist_keyboard`:
