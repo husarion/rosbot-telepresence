@@ -82,9 +82,16 @@ And run `rviz2` and  `teleop_twist_keyboard` directly on the host OS or in Docke
 
 1. Running `rviz2`:
 
+> [!NOTE]
+> You need to install `image-transport-plugins` package first:
+>
+> ```bash
+> sudo apt install ros-$ROS_DISTRO-image-transport-plugins
+> ```
+
    ```bash
    export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
-   rviz2 -d ./default.rviz
+   rviz2 -d ./params/default.rviz
    ```
 
 2. Running `teleop_twist_keyboard`:
@@ -158,7 +165,7 @@ Rather than employing the `teleop_twist_keyboard` ROS 2 package, you have the op
 docker compose -f compose.pc.yaml up joy2twist
 ```
 
-![ROSbot control with gamepad](.docs/joy2twist.png)
+![ROSbot control with gamepad](.docs/gamepad-legend.jpg)
 
 ## Troubleshooting
 
