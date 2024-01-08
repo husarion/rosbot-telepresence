@@ -46,7 +46,7 @@ services:
       - *cpu-config
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - ./default.rviz:/default.rviz
+      - ./params/default.rviz:/default.rviz
     command: rviz2 -d /default.rviz
 
   joy2twist:

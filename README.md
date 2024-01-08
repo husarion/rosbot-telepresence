@@ -82,6 +82,15 @@ And run `rviz2` and  `teleop_twist_keyboard` directly on the host OS or in Docke
 
 1. Running `rviz2`:
 
+:::info
+You need to install `image-transport-plugins` package first:
+
+```bash
+sudo apt intall ros-$ROS_DISTRO-image-transport-plugins
+```
+:::
+
+
    ```bash
    export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
    rviz2 -d ./params/default.rviz
