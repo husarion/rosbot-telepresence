@@ -1,0 +1,435 @@
+{
+  "configById": {
+    "Plot!3dzg3fj": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/battery.voltage",
+          "enabled": true
+        }
+      ],
+      "minYValue": 9,
+      "maxYValue": 13,
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": true,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240,
+      "foxglovePanelTitle": "Voltage [V]"
+    },
+    "Plot!36gu72d": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/range/fl.range",
+          "enabled": true
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/range/rl.range",
+          "enabled": true
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/range/fr.range",
+          "enabled": true
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/range/rr.range",
+          "enabled": true
+        }
+      ],
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": false,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240
+    },
+    "Plot!3fmge1k": {
+      "paths": [
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/imu_broadcaster/imu.orientation.w",
+          "enabled": true
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/imu_broadcaster/imu.orientation.x",
+          "enabled": true
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/imu_broadcaster/imu.orientation.y",
+          "enabled": true
+        },
+        {
+          "timestampMethod": "receiveTime",
+          "value": "/imu_broadcaster/imu.orientation.z",
+          "enabled": true
+        }
+      ],
+      "showXAxisLabels": true,
+      "showYAxisLabels": true,
+      "showLegend": false,
+      "legendDisplay": "floating",
+      "showPlotValuesInLegend": false,
+      "isSynced": true,
+      "xAxisVal": "timestamp",
+      "sidebarDimension": 240
+    },
+    "Publish!2vt86ud": {
+      "buttonText": "Publish",
+      "buttonTooltip": "",
+      "advancedView": false,
+      "value": "{\n  \"linear\": {\n    \"x\": 1.0,\n    \"y\": 0,\n    \"z\": 0\n  },\n  \"angular\": {\n    \"x\": 0,\n    \"y\": 0,\n    \"z\": -0.5\n  }\n}",
+      "topicName": "/cmd_vel",
+      "datatype": "geometry_msgs/msg/Twist",
+      "foxglovePanelTitle": "Test Motors"
+    },
+    "Publish!3vum3mh": {
+      "buttonText": "Publish",
+      "buttonTooltip": "",
+      "advancedView": false,
+      "value": "{\n  \"data\": [\n    2000, 0, 0, 0, 0, 0\n  ]\n}",
+      "topicName": "/cmd_ser",
+      "datatype": "std_msgs/msg/UInt32MultiArray",
+      "foxglovePanelTitle": "Test Servo Left"
+    },
+    "Publish!1znc7ec": {
+      "buttonText": "Publish",
+      "buttonTooltip": "",
+      "advancedView": false,
+      "value": "{\n\n  \"data\": [\n    1000, 0, 0, 0, 0, 0\n  ]\n}",
+      "topicName": "/cmd_ser",
+      "datatype": "std_msgs/msg/UInt32MultiArray",
+      "foxglovePanelTitle": "Test Servo Left"
+    },
+    "CallService!1lvo2d": {
+      "requestPayload": "{\n  \"parameters\": [\n    {\"name\": \"servo_voltage\", \"value\": {\"type\": 3, \"double_value\": 5.0}},\n    {\"name\": \"servo_enable_power\", \"value\": {\"type\": 1, \"bool_value\": true}},\n    {\"name\": \"servo0_period\", \"value\": {\"type\": 2, \"integer_value\": 20000}},\n    {\"name\": \"servo0_enable\", \"value\": {\"type\": 1, \"bool_value\": true}}\n  ]\n}",
+      "layout": "horizontal",
+      "serviceName": "/rosbot_ros2_firmware/set_parameters"
+    },
+    "3D!1hjkoi9": {
+      "cameraState": {
+        "perspective": true,
+        "distance": 1.4619545302559587,
+        "phi": 79.0089306132632,
+        "thetaOffset": 88.88640568804543,
+        "targetOffset": [
+          0.7722908390843872,
+          0.0402201506065365,
+          2.2851146762355585e-17
+        ],
+        "target": [
+          0,
+          0,
+          0
+        ],
+        "targetOrientation": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "fovy": 45,
+        "near": 0.5,
+        "far": 5000
+      },
+      "followMode": "follow-pose",
+      "scene": {
+        "meshUpAxis": "z_up"
+      },
+      "transforms": {
+        "frame:body_link": {
+          "visible": false
+        },
+        "frame:base_link": {
+          "visible": false
+        },
+        "frame:fl_range": {
+          "visible": false
+        },
+        "frame:fr_range": {
+          "visible": false
+        },
+        "frame:rl_range": {
+          "visible": false
+        },
+        "frame:rr_range": {
+          "visible": false
+        },
+        "frame:camera_link": {
+          "visible": false
+        },
+        "frame:cover_link": {
+          "visible": false
+        },
+        "frame:imu_link": {
+          "visible": false
+        },
+        "frame:camera_color_optical_frame": {
+          "visible": false
+        },
+        "frame:camera_color_frame": {
+          "visible": false
+        },
+        "frame:camera_depth_optical_frame": {
+          "visible": false
+        },
+        "frame:camera_depth_frame": {
+          "visible": false
+        },
+        "frame:camera_orbbec_astra_link": {
+          "visible": false
+        },
+        "frame:slamtec_rplidar_a2_link": {
+          "visible": false
+        },
+        "frame:laser": {
+          "visible": false
+        },
+        "frame:odom": {
+          "visible": false
+        },
+        "frame:fl_wheel_link": {
+          "visible": false
+        },
+        "frame:fr_wheel_link": {
+          "visible": false
+        },
+        "frame:rl_wheel_link": {
+          "visible": false
+        },
+        "frame:rr_wheel_link": {
+          "visible": false
+        }
+      },
+      "topics": {
+        "/camera/color/image_raw/compressed": {
+          "visible": true,
+          "cameraInfoTopic": "/camera/color/camera_info"
+        },
+        "/robot_description": {
+          "visible": true
+        },
+        "/scan": {
+          "visible": true,
+          "colorField": "range",
+          "colorMode": "colormap",
+          "colorMap": "turbo",
+          "pointSize": 8,
+          "explicitAlpha": 1
+        }
+      },
+      "layers": {},
+      "publish": {
+        "type": "point",
+        "poseTopic": "/move_base_simple/goal",
+        "pointTopic": "/clicked_point",
+        "poseEstimateTopic": "/initialpose",
+        "poseEstimateXDeviation": 0.5,
+        "poseEstimateYDeviation": 0.5,
+        "poseEstimateThetaDeviation": 0.26179939
+      },
+      "imageMode": {},
+      "followTf": "cover_link"
+    },
+    "Teleop!1tgx2ca": {
+      "publishRate": 10,
+      "upButton": {
+        "field": "linear-x",
+        "value": 0.2
+      },
+      "downButton": {
+        "field": "linear-x",
+        "value": -0.2
+      },
+      "leftButton": {
+        "field": "angular-z",
+        "value": 1
+      },
+      "rightButton": {
+        "field": "angular-z",
+        "value": -1
+      },
+      "topic": "/cmd_vel"
+    },
+    "RosOut!b0toow": {
+      "searchTerms": [],
+      "minLogLevel": 1
+    },
+    "Gauge!35smwvj": {
+      "path": "/battery.voltage",
+      "minValue": 8,
+      "maxValue": 12.5,
+      "colorMap": "turbo",
+      "colorMode": "colormap",
+      "gradient": [
+        "#0000ff",
+        "#ff00ff"
+      ],
+      "reverse": false
+    },
+    "Publish!1vyu7cy": {
+      "topicName": "/led/left",
+      "datatype": "std_msgs/msg/Bool",
+      "buttonText": "LED1 off",
+      "buttonTooltip": "",
+      "buttonColor": "#a80000",
+      "advancedView": false,
+      "value": "{\n  \"data\": false\n}",
+      "foxglovePanelTitle": ""
+    },
+    "Publish!1y8zudr": {
+      "topicName": "/led/right",
+      "datatype": "std_msgs/msg/Bool",
+      "buttonText": "LED2 off",
+      "buttonTooltip": "",
+      "buttonColor": "#a80000",
+      "advancedView": false,
+      "value": "{\n  \"data\": false\n}",
+      "foxglovePanelTitle": ""
+    },
+    "Indicator!2hombud": {
+      "path": "/button/left.data",
+      "style": "background",
+      "fallbackColor": "#a80000",
+      "fallbackLabel": "False",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "true",
+          "color": "#68e24a",
+          "label": "True"
+        }
+      ]
+    },
+    "Publish!1lmp24z": {
+      "topicName": "/led/left",
+      "datatype": "std_msgs/msg/Bool",
+      "buttonText": "LED1 on",
+      "buttonTooltip": "",
+      "buttonColor": "#00a81d",
+      "advancedView": false,
+      "value": "{\n  \"data\": true\n}",
+      "foxglovePanelTitle": ""
+    },
+    "Publish!1laves5": {
+      "topicName": "/led/right",
+      "datatype": "std_msgs/msg/Bool",
+      "buttonText": "LED2 on",
+      "buttonTooltip": "",
+      "buttonColor": "#00a81d",
+      "advancedView": false,
+      "value": "{\n  \"data\": true\n}",
+      "foxglovePanelTitle": ""
+    },
+    "Indicator!448ygg6": {
+      "path": "/button/right.data",
+      "style": "background",
+      "fallbackColor": "#a80000",
+      "fallbackLabel": "False",
+      "rules": [
+        {
+          "operator": "=",
+          "rawValue": "true",
+          "color": "#68e24a",
+          "label": "True"
+        }
+      ]
+    },
+    "Tab!425q3ou": {
+      "activeTabIdx": 0,
+      "tabs": [
+        {
+          "title": "Battery [V]",
+          "layout": "Plot!3dzg3fj"
+        },
+        {
+          "title": "Ranges Plots",
+          "layout": "Plot!36gu72d"
+        },
+        {
+          "title": "IMU Plots",
+          "layout": "Plot!3fmge1k"
+        },
+        {
+          "title": "Motor test",
+          "layout": {
+            "first": "Publish!2vt86ud",
+            "second": {
+              "first": "Publish!3vum3mh",
+              "second": "Publish!1znc7ec",
+              "direction": "row"
+            },
+            "direction": "column"
+          }
+        },
+        {
+          "title": "Servo Enable",
+          "layout": "CallService!1lvo2d"
+        }
+      ]
+    }
+  },
+  "globalVariables": {},
+  "userNodes": {},
+  "playbackConfig": {
+    "speed": 1
+  },
+  "layout": {
+    "direction": "row",
+    "first": {
+      "first": "3D!1hjkoi9",
+      "second": "Teleop!1tgx2ca",
+      "direction": "column",
+      "splitPercentage": 74.4611365120836
+    },
+    "second": {
+      "first": {
+        "first": {
+          "first": "RosOut!b0toow",
+          "second": "Gauge!35smwvj",
+          "direction": "column",
+          "splitPercentage": 44.73067915690867
+        },
+        "second": {
+          "first": {
+            "first": "Publish!1vyu7cy",
+            "second": {
+              "first": "Publish!1y8zudr",
+              "second": "Indicator!2hombud",
+              "direction": "column"
+            },
+            "direction": "column",
+            "splitPercentage": 33.29820767230209
+          },
+          "second": {
+            "first": "Publish!1lmp24z",
+            "second": {
+              "first": "Publish!1laves5",
+              "second": "Indicator!448ygg6",
+              "direction": "column"
+            },
+            "direction": "column",
+            "splitPercentage": 33.29820767230209
+          },
+          "direction": "row"
+        },
+        "direction": "column",
+        "splitPercentage": 57.37737853762195
+      },
+      "second": "Tab!425q3ou",
+      "direction": "column",
+      "splitPercentage": 68.27586206896552
+    },
+    "splitPercentage": 73.79526105980983
+  }
+}
