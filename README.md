@@ -5,9 +5,9 @@ Manual ROSbot Driving over the Internet with Real-Time Camera Feed
 ![ROSbot ROS2 user interface](.docs/rosbot-rviz.png)
 
 There are two different setups on two separate branches:
+
 - [**ros2router**](https://github.com/husarion/rosbot-telepresence/tree/ros2router) (the current one)
 - [**foxglove**](https://github.com/husarion/rosbot-telepresence/tree/foxglove)
-
 
 ## Quick start
 
@@ -36,8 +36,7 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
 
    > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file
 
-
-### 📁 Step 2: Clonning the Repo
+### 📁 Step 2: Cloning the Repo
 
 This repository contains the Docker Compose setup for both PC and ROSbot. You can clone it to both PC and ROSbot, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
 
@@ -68,32 +67,32 @@ And run `rviz2` and  `teleop_twist_keyboard` directly on the host OS or in Docke
 
 1. Running `rviz2`:
 
-```bash
-xhost +local:docker && \
-docker compose -f compose.pc.yaml up rviz
-```
+   ```bash
+   xhost +local:docker && \
+   docker compose -f compose.pc.yaml up rviz
+   ```
 
 2. Running `teleop_twist_keyboard`:
 
-```bash
-docker compose -f compose.pc.yaml run --rm -it rviz ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r
-```
+   ```bash
+   docker compose -f compose.pc.yaml run --rm -it rviz ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r
+   ```
 
 #### Host
 
 1. Running `rviz2`:
 
-```bash
-export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
-rviz2 -d ./default.rviz
-```
+   ```bash
+   export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
+   rviz2 -d ./default.rviz
+   ```
 
 2. Running `teleop_twist_keyboard`:
 
-```bash
-export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
-ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r
-```
+   ```bash
+   export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
+   ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r
+   ```
 
 ### ⚙️ Step 4: Flashing the ROSbot Firmware
 
@@ -115,7 +114,7 @@ and execute:
 docker compose up
 ```
 
-## Usefull tips
+## Useful tips
 
 ### 1. Checking a datarate
 
@@ -167,7 +166,7 @@ docker compose -f compose.pc.yaml up joy2twist
 
 The log from your computer where you launched `compose.pc.yaml` may contain the following message:
 
-```
+```bash
 [WARN] [1704479601.591809892] [rviz]: [theora] Packet was not a Theora header
 ```
 
