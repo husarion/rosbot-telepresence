@@ -158,7 +158,7 @@ Rather than employing the `teleop_twist_keyboard` ROS 2 package, you have the op
 docker compose -f compose.pc.yaml up joy2twist
 ```
 
-![ROSbot control with gamepad](.docs/joy2twist.png)
+![ROSbot control with gamepad](.docs/gamepad-legend.jpg)
 
 ## Troubleshooting
 
