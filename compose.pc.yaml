@@ -49,7 +49,6 @@ services:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./params/default.rviz:/default.rviz
       - ./rviz.launch.py:/rviz.launch.py
-    # command: rviz2 -d /default.rviz
     command: ros2 launch /rviz.launch.py
 
   joy2twist:

@@ -1,8 +1,6 @@
 allowlist:
   - name: 'rt/{{ .Env.ROBOT_NAMESPACE }}/camera/color/image_raw/{{ .Env.VIDEO_CODEC }}'
-    type: '{{if eq .Env.VIDEO_CODEC "theora"}}theora_image_transport::msg::dds_::Packet_{{else if eq .Env.VIDEO_CODEC "compressed"}}sensor_msgs::msg::dds_::CompressedImage_{{end}}'
-  - name: 'rt/{{ .Env.ROBOT_NAMESPACE }}/camera/color/image_raw/ffmpeg'
-    type: 'ffmpeg_image_transport_msgs::msg::dds_::FFMPEGPacket_'
+    type: '{{if eq .Env.VIDEO_CODEC "theora"}}theora_image_transport::msg::dds_::Packet_{{else if eq .Env.VIDEO_CODEC "compressed"}}sensor_msgs::msg::dds_::CompressedImage_{{else if eq .Env.VIDEO_CODEC "ffmpeg"}}ffmpeg_image_transport_msgs::msg::dds_::FFMPEGPacket_{{end}}'
   - name: 'rt/{{ .Env.ROBOT_NAMESPACE }}/cmd_vel'
     type: 'geometry_msgs::msg::dds_::Twist_'
 blocklist: []
