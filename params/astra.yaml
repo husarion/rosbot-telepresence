@@ -42,3 +42,7 @@
     oni_log_to_file: false
     enable_d2c_viewer: false
     enable_publish_extrinsic: false
+
+    ffmpeg_image_transport.encoding: libx264
+    ffmpeg_image_transport.preset: ultrafast
+    ffmpeg_image_transport.tune: zerolatency
