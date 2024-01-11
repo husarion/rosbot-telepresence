@@ -11,6 +11,14 @@ There are two different setups on two separate branches:
 
 ## Quick start
 
+> using [just](https://github.com/casey/just)
+>
+> install with:
+>
+> ```
+> curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/bin
+> ```
+
 ### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
 
 Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the same Husarnet VPN network. If they are not follow these steps:
