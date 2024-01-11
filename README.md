@@ -83,7 +83,7 @@ And run `rviz2` and  `teleop_twist_keyboard` directly on the host OS or in Docke
 2. Running `teleop_twist_keyboard`:
 
    ```bash
-   docker compose -f compose.pc.yaml run --rm -it rviz ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r
+   docker compose -f compose.pc.yaml exec rviz /bin/bash -c "/ros_entrypoint.sh ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r"
    ```
 
 #### Host
