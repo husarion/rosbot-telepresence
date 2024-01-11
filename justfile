@@ -1,7 +1,18 @@
 set dotenv-load
 
-# start containers on ROSbot 2R / 2 PRO
-default: start-rosbot
+[private]
+alias husarnet := connect-husarnet
+[private]
+alias rosbot := start-rosbot
+[private]
+alias pc := start-pc
+[private]
+alias teleop := run-teleop
+[private]
+alias teleop-docker := run-teleop-docker
+
+default:
+  @just --list --unsorted
 
 # connect to Husarnet VPN network
 connect-husarnet:
