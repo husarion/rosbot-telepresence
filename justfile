@@ -1,11 +1,28 @@
 set dotenv-load
 
+# start containers on ROSbot 2R / 2 PRO
 default: start-rosbot
+
+# connect to Husarnet VPN network
+connect-husarnet:
+    #!/bin/bash
+    if ! command -v husarnet > /dev/null; then \
+        echo "Husarnet is not installed. Installing now..."; \
+        curl https://install.husarnet.com/install.sh | sudo bash; \
+    else \
+        echo "Husarnet is already installed."; \
+    fi
+    husarnet join
 
 # start containers on ROSbot 2R / 2 PRO
 start-rosbot:
-    docker compose up
-
+    #!/bin/bash
+    if [[ "{{arch()}}" == "aarch64" ]]; then \
+        docker compose up; \
+    else \
+        echo "This command can be run only on ROSbot 2R / 2 PRO."; \
+    fi
+    
 # start containers on PC
 start-pc:
     xhost +local:docker
