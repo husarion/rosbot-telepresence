@@ -11,6 +11,7 @@ alias teleop := run-teleop
 [private]
 alias teleop-docker := run-teleop-docker
 
+[private]
 default:
   @just --list --unsorted
 
