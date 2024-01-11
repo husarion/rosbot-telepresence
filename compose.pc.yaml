@@ -39,8 +39,7 @@ services:
       # - HUSARNET_PARTICIPANT_ENABLED=false
 
   rviz:
-    # image: husarion/rviz2:iron-12.4.5-20240104
-    image: husarion/rviz2:humble-ffmpeg-plugin
+    image: husarion/rviz2:humble-11.2.9-20240111
     <<: 
       - *common-config
       - *ros-envs

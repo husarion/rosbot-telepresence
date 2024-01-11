@@ -49,7 +49,7 @@ services:
         serial_baudrate:=576000
         
   astra:
-    image: husarion/astra:humble-ffmpeg-plugin
+    image: husarion/astra:humble-1.1.0-20240111
     <<: 
       - *common-config
       - *ros-envs
