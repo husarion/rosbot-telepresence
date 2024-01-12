@@ -43,10 +43,12 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
 2. Run in the linux terminal on your PC:
    ```bash
    cd rosbot-telepresence/ # remember to run all "just" commands in the repo root folder
+   export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    just connect-husarnet $JOINCODE my-laptop
    ```
 3. Run in the linux terminal of your ROSbot:
    ```bash
+   export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    sudo husarnet join $JOINCODE rosbot2r
    ```
    > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change
