@@ -82,7 +82,7 @@ just run-teleop-docker
 # just run-teleop
 ```
 
-### 🤖 Step 5: Launching the Containers on ROSbot
+### 🤖 Step 4: Launching the Containers on ROSbot
 
 > 
 > Execute the commands below in the ROSbot's shell (you can access it with `ssh husarion@rosbot2r`)
