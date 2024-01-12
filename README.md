@@ -12,7 +12,7 @@ There are two different setups on two separate branches:
 ## Quick start
 
 > [!NOTE]
-> To faciliate running of this project we're using [just](https://github.com/casey/just)
+> To simplify the execution of this project, we are utilizing [just](https://github.com/casey/just).
 >
 > Install it with:
 >
