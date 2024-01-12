@@ -19,11 +19,22 @@ alias joy := run-joy
 default:
   @just --list --unsorted
 
-_install-dependencies:
+_install-rsync:
+    #!/bin/bash
+    if ! command -v rsync &> /dev/null; then \
+        if [ "$EUID" -ne 0 ]; then \
+            echo "Please run as root to install dependencies"; \
+            exit 1; \
+        fi
+
+        sudo apt update && sudo apt install -y rsync
+    fi
+
+_install-yq:
     #!/bin/bash
     if ! command -v /usr/bin/yq &> /dev/null; then \
         if [ "$EUID" -ne 0 ]; then \
-            echo "Please run as root to install yq (required for this script)"; \
+            echo "Please run as root to install dependencies"; \
             exit 1; \
         fi
 
@@ -57,7 +68,7 @@ connect-husarnet joincode hostname:
     husarnet join {{joincode}} {{hostname}}
 
 # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
-flash-firmware: _install-dependencies
+flash-firmware: _install-yq
     #!/bin/bash
     echo "Stopping all running containers"
     docker ps -q | xargs -r docker stop
@@ -97,7 +108,7 @@ run-joy:
     docker compose -f compose.pc.yaml up joy2twist
 
 # copy repo content to remote host with 'rsync' and watch for changes
-sync hostname password="husarion":
+sync hostname password="husarion": _install-rsync
     #!/bin/bash
     sshpass -p "husarion" rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     while inotifywait -r -e modify,create,delete,move ./ ; do

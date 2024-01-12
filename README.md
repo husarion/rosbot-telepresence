@@ -101,7 +101,17 @@ just start-rosbot
 
 ## Useful tips
 
-### 1. Checking a datarate
+### 1. Using Logitech F710 gamepad
+
+Rather than employing the `teleop_twist_keyboard` ROS 2 package, you have the option to use the Logitech F710 gamepad. To utilize it, plug it into your PC's USB port and launch the `joy2twist` container on your PC:
+
+```bash
+just run-joy
+```
+
+![ROSbot control with gamepad](.docs/gamepad-legend.jpg)
+
+### 2. Checking a datarate
 
 To assess the data rate of a video stream being transmitted over the Husarnet VPN (which appears in your OS as the `hnet0` network interface), execute the following:
 
@@ -114,7 +124,7 @@ husarion@rosbot:~$ ifstat -i hnet0
     1.02   2748.40
 ```
 
-### 2. Sending uncompressed video frames over the network
+### 3. Sending uncompressed video frames over the network
 
 If raw image data is being transmitted over the network, you need to perform some [DDS-tunning](https://docs.ros.org/en/humble/How-To-Guides/DDS-tuning.html) (both on ROSbot and PC):
 
@@ -131,16 +141,6 @@ For configs over VPN:
 sudo sysctl -w net.ipv6.ip6frag_time=3 # 3s
 sudo sysctl -w net.ipv6.ip6frag_high_thresh=134217728 # (128 MB)
 ```
-
-### 3. Using Logitech F710 gamepad
-
-Rather than employing the `teleop_twist_keyboard` ROS 2 package, you have the option to use the Logitech F710 gamepad. To utilize it, plug it into your PC's USB port and launch the `joy2twist` container on your PC:
-
-```bash
-just run-joy
-```
-
-![ROSbot control with gamepad](.docs/gamepad-legend.jpg)
 
 ## Troubleshooting
 
