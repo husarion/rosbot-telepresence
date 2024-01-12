@@ -3,14 +3,14 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
     return LaunchDescription([
-        # Launch RViz2 with a default configuration
+        # Launch teleop_ui_ros with a default configuration
         Node(
             package='teleop_ui_ros',
             executable='teleop_ui',
             name='teleop_ui',
             output='screen'
         ),
-        # Launch image_transport to republish images
+        # Launch image_transport to republish images (image-transport don't work in python)
         Node(
             package='image_transport',
             executable='republish',

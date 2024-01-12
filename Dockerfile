@@ -11,12 +11,15 @@ RUN mkdir src && \
     source /opt/ros/$ROS_DISTRO/setup.bash && \
     colcon build
 
-COPY ./ros2_ws/src/teleop_ui_ros /ros2_ws/src/teleop_ui_ros
-
 RUN apt update && apt install -y \
         ros-humble-image-transport \ 
-        ros-humble-image-transport-plugins
+        ros-humble-image-transport-plugins \
+        python3-tk \
+        python3-pip
 
+RUN pip install Pillow
+
+COPY ./ros2_ws/src/teleop_ui_ros /ros2_ws/src/teleop_ui_ros
 
 RUN source /opt/ros/$ROS_DISTRO/setup.bash && \
     source /ros2_ws/install/setup.bash && \
