@@ -11,122 +11,90 @@ There are two different setups on two separate branches:
 
 ## Quick start
 
-> using [just](https://github.com/casey/just)
+> [!NOTE]
+> To faciliate running of this project we're using [just](https://github.com/casey/just)
 >
-> install with:
+> Install it with:
 >
 > ```
 > curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/bin
 > ```
+
+To see all available commands just run `just`:
+
+```bash
+husarion@rosbot2r:~/rosbot-telepresence$ just
+Available recipes:
+    connect-husarnet joincode hostname # connect to Husarnet VPN network
+    flash-firmware    # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
+    start-rosbot      # start containers on ROSbot 2R / 2 PRO
+    start-pc          # start containers on PC
+    run-teleop        # run teleop_twist_keybaord (host)
+    run-teleop-docker # run teleop_twist_keybaord (inside rviz2 container)
+    run-joy           # enable the F710 gemapad (connected to your PC) to control ROSbot
+    sync hostname password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
+```
 
 ### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
 
 Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the same Husarnet VPN network. If they are not follow these steps:
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
-2. Connect your laptop to the [Husarnet network](https://husarnet.com/docs). If you are Ubuntu user, just run:
-
+2. Run in the linux terminal on your PC:
    ```bash
-   curl https://install.husarnet.com/install.sh | sudo bash
+   cd rosbot-telepresence/ # remember to run all "just" commands in the repo root folder
+   just connect-husarnet $JOINCODE my-laptop
    ```
-
-   and connect to the Husarnet network with:
-
+3. Run in the linux terminal of your ROSbot:
    ```bash
-   sudo husarnet join <paste-join-code-here>
+   sudo husarnet join $JOINCODE rosbot2r
    ```
+   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change
+   > ```bash
+   > ROBOT_NAMESPACE=rosbot2r
+   > ```
 
-3. Connect your ROSbot to the Husarnet network. Husarnet is already pre-installed so just run:
+### 📡 Step 2: Sync
 
-   ```bash
-   sudo husarnet join <paste-join-code-here> rosbot2r
-   ```
-
-   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file
-
-### 📁 Step 2: Cloning the Repo
-
-This repository contains the Docker Compose setup for both PC and ROSbot. You can clone it to both PC and ROSbot, or use the `./sync_with_rosbot.sh` script to clone it to your PC and keep it synchronized with the robot
+Copy the local changes (on PC) to the remote ROSbot
 
 ```bash
-git clone https://github.com/husarion/rosbot-telepresence
-cd rosbot-telepresence
-export ROSBOT_HOSTNAME=rosbot2r # Replace with your own Husarnet hostname
-./sync_with_rosbot.sh $ROSBOT_HOSTNAME
+just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3 
 ```
 
-Edit `.env` file and write down the ROSbot 2R Husarnet hostname here to let the PC part know how to find the ROSbot 2R.
-
-```bash
-ROBOT_NAMESPACE=rosbot2r
-```
+Now you should find `/home/husarion/rosbot-telepresence` folder on your ROSbot's file system.
 
 ### 💻 Step 3: Launching the Control Interface on PC
 
-At first start the ROS 2 Router:
+At first start the ROS 2 Router and RViz:
 
 ```bash
-docker compose -f compose.pc.yaml up ros2router -d
+just start-pc
 ```
 
-And run `rviz2` and  `teleop_twist_keyboard` directly on the host OS or in Docker (choose one option):
-
-#### Docker
-
-1. Running `rviz2`:
-
-   ```bash
-   xhost +local:docker && \
-   docker compose -f compose.pc.yaml up rviz
-   ```
-
-2. Running `teleop_twist_keyboard`:
-
-   ```bash
-   docker compose -f compose.pc.yaml exec rviz /bin/bash -c "/ros_entrypoint.sh ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r"
-   ```
-
-#### Host
-
-1. Running `rviz2`:
-
-> [!NOTE]
-> You need to install `image-transport-plugins` package first:
->
-> ```bash
-> sudo apt install ros-$ROS_DISTRO-image-transport-plugins
-> ```
-
-   ```bash
-   export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
-   rviz2 -d ./params/default.rviz
-   ```
-
-2. Running `teleop_twist_keyboard`:
-
-   ```bash
-   export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
-   ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/rosbot2r
-   ```
-
-### ⚙️ Step 4: Flashing the ROSbot Firmware
-
-SSH to the ROSbot's shell:
+And run `teleop_twist_keyboard` directly on the host OS or in Docker (choose one option):
 
 ```bash
-ssh husarion@$ROSBOT_HOSTNAME
-```
-
-and execute:
-
-```bash
-./flash_rosbot_firmware.sh
+just run-teleop-docker
+# or
+# just run-teleop
 ```
 
 ### 🤖 Step 5: Launching the Containers on ROSbot
 
+> 
+> Execute the commands below in the ROSbot's shell (you can access it with `ssh husarion@rosbot2r`)
+
+Flash the right version of the firmware:
+
 ```bash
-docker compose up
+just flash-firmware
+```
+
+And run the containers
+
+```bash
+just start-rosbot
 ```
 
 ## Useful tips
@@ -142,9 +110,6 @@ husarion@rosbot:~$ ifstat -i hnet0
     6.83   2744.66
     1.67   2659.88
     1.02   2748.40
-    6.73   2565.20
-    1.02   2748.65
-    1.18   2749.64
 ```
 
 ### 2. Sending uncompressed video frames over the network
@@ -170,7 +135,7 @@ sudo sysctl -w net.ipv6.ip6frag_high_thresh=134217728 # (128 MB)
 Rather than employing the `teleop_twist_keyboard` ROS 2 package, you have the option to use the Logitech F710 gamepad. To utilize it, plug it into your PC's USB port and launch the `joy2twist` container on your PC:
 
 ```bash
-docker compose -f compose.pc.yaml up joy2twist
+just run-joy
 ```
 
 ![ROSbot control with gamepad](.docs/gamepad-legend.jpg)
