@@ -112,5 +112,5 @@ sync hostname password="husarion": _install-rsync
     #!/bin/bash
     sshpass -p "husarion" rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     while inotifywait -r -e modify,create,delete,move ./ ; do
-        sshpass -p "husarion" rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+        sshpass -p "{{password}}" rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     done
