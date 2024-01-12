@@ -1,0 +1,3 @@
+[console_scripts]
+teleop_ui = teleop_ui_ros.teleop_ui_node:main
+

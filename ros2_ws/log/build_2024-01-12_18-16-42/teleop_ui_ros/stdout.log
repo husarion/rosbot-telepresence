@@ -1,0 +1,35 @@
+running egg_info
+creating ../../build/teleop_ui_ros/teleop_ui_ros.egg-info
+writing ../../build/teleop_ui_ros/teleop_ui_ros.egg-info/PKG-INFO
+writing dependency_links to ../../build/teleop_ui_ros/teleop_ui_ros.egg-info/dependency_links.txt
+writing entry points to ../../build/teleop_ui_ros/teleop_ui_ros.egg-info/entry_points.txt
+writing requirements to ../../build/teleop_ui_ros/teleop_ui_ros.egg-info/requires.txt
+writing top-level names to ../../build/teleop_ui_ros/teleop_ui_ros.egg-info/top_level.txt
+writing manifest file '../../build/teleop_ui_ros/teleop_ui_ros.egg-info/SOURCES.txt'
+reading manifest file '../../build/teleop_ui_ros/teleop_ui_ros.egg-info/SOURCES.txt'
+writing manifest file '../../build/teleop_ui_ros/teleop_ui_ros.egg-info/SOURCES.txt'
+running build
+running build_py
+creating /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build
+creating /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build/lib
+creating /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build/lib/teleop_ui_ros
+copying teleop_ui_ros/__init__.py -> /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build/lib/teleop_ui_ros
+copying teleop_ui_ros/teleop_ui_node.py -> /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build/lib/teleop_ui_ros
+running install
+running install_lib
+creating /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages/teleop_ui_ros
+copying /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build/lib/teleop_ui_ros/__init__.py -> /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages/teleop_ui_ros
+copying /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build/lib/teleop_ui_ros/teleop_ui_node.py -> /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages/teleop_ui_ros
+byte-compiling /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages/teleop_ui_ros/__init__.py to __init__.cpython-310.pyc
+byte-compiling /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages/teleop_ui_ros/teleop_ui_node.py to teleop_ui_node.cpython-310.pyc
+running install_data
+creating /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/share/ament_index
+creating /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/share/ament_index/resource_index
+creating /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/share/ament_index/resource_index/packages
+copying resource/teleop_ui_ros -> /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/share/ament_index/resource_index/packages
+copying package.xml -> /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/share/teleop_ui_ros
+running install_egg_info
+Copying ../../build/teleop_ui_ros/teleop_ui_ros.egg-info to /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages/teleop_ui_ros-0.0.0-py3.10.egg-info
+running install_scripts
+Installing teleop_ui script to /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/teleop_ui_ros
+writing list of installed files to '/home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/install.log'

@@ -38,17 +38,29 @@ services:
       # - ROS_LOCALHOST_ONLY=0
       # - HUSARNET_PARTICIPANT_ENABLED=false
 
-  rviz:
-    image: husarion/rviz2:humble-11.2.9-20240111
+  # rviz:
+  #   image: husarion/rviz2:humble-11.2.9-20240111
+  #   <<: 
+  #     - *common-config
+  #     - *ros-envs
+  #     - *cpu-config
+  #   volumes:
+  #     - /tmp/.X11-unix:/tmp/.X11-unix:rw
+  #     - ./params/default.rviz:/default.rviz
+  #     - ./rviz.launch.py:/rviz.launch.py
+  #   command: ros2 launch /rviz.launch.py
+
+  ui:
+    build: .
     <<: 
       - *common-config
       - *ros-envs
       - *cpu-config
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
-      - ./params/default.rviz:/default.rviz
-      - ./rviz.launch.py:/rviz.launch.py
-    command: ros2 launch /rviz.launch.py
+    # command: ros2 run teleop_ui_ros teleop_ui
+    command: ros2 launch /teleop-ui.launch.py
+    # command: tail -f /dev/null
 
   joy2twist:
     image: husarion/joy2twist:humble-1.0.0-20240105

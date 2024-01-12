@@ -1,4 +1,5 @@
 set dotenv-load
+set positional-arguments # to use $@ as arguments for commands
 
 [private]
 alias husarnet := connect-husarnet
@@ -106,6 +107,13 @@ run-teleop-docker:
 # enable the F710 gemapad (connected to your PC) to control ROSbot
 run-joy:
     docker compose -f compose.pc.yaml up joy2twist
+
+# eg. just run "ros2 topic list"
+run command:
+    #!/bin/bash
+    source /opt/ros/${ROS_DISTRO}/setup.bash
+    export FASTRTPS_DEFAULT_PROFILES_FILE=$(pwd)/shm-only.xml
+    $@
 
 # copy repo content to remote host with 'rsync' and watch for changes
 sync hostname password="husarion": _install-rsync

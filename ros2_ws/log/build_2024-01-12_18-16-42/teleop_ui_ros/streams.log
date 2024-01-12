@@ -1,0 +1,39 @@
+[0.838s] Invoking command in '/home/dominik/tech/rosbot-telepresence/ros2_ws/src/teleop_ui_ros': PYTHONPATH=/home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/prefix_override:/home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/teleop_ui_ros build --build-base /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build install --record /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/install.log --single-version-externally-managed
+[1.095s] running egg_info
+[1.095s] creating ../../build/teleop_ui_ros/teleop_ui_ros.egg-info
+[1.095s] writing ../../build/teleop_ui_ros/teleop_ui_ros.egg-info/PKG-INFO
+[1.095s] writing dependency_links to ../../build/teleop_ui_ros/teleop_ui_ros.egg-info/dependency_links.txt
+[1.096s] writing entry points to ../../build/teleop_ui_ros/teleop_ui_ros.egg-info/entry_points.txt
+[1.096s] writing requirements to ../../build/teleop_ui_ros/teleop_ui_ros.egg-info/requires.txt
+[1.096s] writing top-level names to ../../build/teleop_ui_ros/teleop_ui_ros.egg-info/top_level.txt
+[1.096s] writing manifest file '../../build/teleop_ui_ros/teleop_ui_ros.egg-info/SOURCES.txt'
+[1.098s] reading manifest file '../../build/teleop_ui_ros/teleop_ui_ros.egg-info/SOURCES.txt'
+[1.099s] writing manifest file '../../build/teleop_ui_ros/teleop_ui_ros.egg-info/SOURCES.txt'
+[1.099s] running build
+[1.099s] running build_py
+[1.099s] creating /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build
+[1.100s] creating /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build/lib
+[1.100s] creating /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build/lib/teleop_ui_ros
+[1.100s] copying teleop_ui_ros/__init__.py -> /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build/lib/teleop_ui_ros
+[1.100s] copying teleop_ui_ros/teleop_ui_node.py -> /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build/lib/teleop_ui_ros
+[1.100s] running install
+[1.100s] /usr/lib/python3/dist-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+[1.100s]   warnings.warn(
+[1.100s] running install_lib
+[1.101s] creating /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages/teleop_ui_ros
+[1.101s] copying /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build/lib/teleop_ui_ros/__init__.py -> /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages/teleop_ui_ros
+[1.101s] copying /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build/lib/teleop_ui_ros/teleop_ui_node.py -> /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages/teleop_ui_ros
+[1.102s] byte-compiling /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages/teleop_ui_ros/__init__.py to __init__.cpython-310.pyc
+[1.102s] byte-compiling /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages/teleop_ui_ros/teleop_ui_node.py to teleop_ui_node.cpython-310.pyc
+[1.102s] running install_data
+[1.103s] creating /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/share/ament_index
+[1.103s] creating /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/share/ament_index/resource_index
+[1.103s] creating /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/share/ament_index/resource_index/packages
+[1.103s] copying resource/teleop_ui_ros -> /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/share/ament_index/resource_index/packages
+[1.103s] copying package.xml -> /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/share/teleop_ui_ros
+[1.103s] running install_egg_info
+[1.105s] Copying ../../build/teleop_ui_ros/teleop_ui_ros.egg-info to /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages/teleop_ui_ros-0.0.0-py3.10.egg-info
+[1.105s] running install_scripts
+[1.125s] Installing teleop_ui script to /home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/teleop_ui_ros
+[1.125s] writing list of installed files to '/home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/install.log'
+[1.146s] Invoked command in '/home/dominik/tech/rosbot-telepresence/ros2_ws/src/teleop_ui_ros' returned '0': PYTHONPATH=/home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/prefix_override:/home/dominik/tech/rosbot-telepresence/ros2_ws/install/teleop_ui_ros/lib/python3.10/site-packages:${PYTHONPATH} /usr/bin/python3 setup.py egg_info --egg-base ../../build/teleop_ui_ros build --build-base /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/build install --record /home/dominik/tech/rosbot-telepresence/ros2_ws/build/teleop_ui_ros/install.log --single-version-externally-managed
