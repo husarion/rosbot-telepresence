@@ -38,7 +38,7 @@ This repository contains the Docker Compose setup for both PC and ROSbot. You ca
 git clone https://github.com/husarion/rosbot-telepresence
 cd rosbot-telepresence 
 export ROSBOT_ADDR=rosbot2r # Replace with your own Husarnet hostname
-./sync_with_rosbot.sh ROSBOT_ADDR$
+./sync_with_rosbot.sh $ROSBOT_ADDR
 ```
 
 ## Step 3: Flashing the ROSbot Firmware
