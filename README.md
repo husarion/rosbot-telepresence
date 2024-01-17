@@ -10,67 +10,71 @@ There are two different setups on two separate branches:
 
 ## Quick start
 
+> [!NOTE]
+> To simplify the execution of this project, we are utilizing [just](https://github.com/casey/just).
+>
+> Install it with:
+>
+> ```
+> curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/bin
+> ```
+
+To see all available commands just run `just`:
+
+```bash
+husarion@rosbot2r:~/rosbot-telepresence$ just
+Available recipes:
+    connect-husarnet joincode hostname # connect to Husarnet VPN network
+    flash-firmware # flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
+    start-rosbot   # start containers on ROSbot 2R / 2 PRO
+    sync hostname password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
+```
+
 ### 🌎 Step 1: Connecting ROSbot and Laptop over VPN
 
-Ensure that both ROSbot 2R and PRO are linked to the same Husarnet VPN network. If they are not follow these steps:
+Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the same Husarnet VPN network. If they are not follow these steps:
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
-
-2. Connect your laptop to the [Husarnet network](https://husarnet.com/docs). If you are Ubuntu user, just run:
-
+2. Run in the linux terminal on your PC:
    ```bash
-   curl https://install.husarnet.com/install.sh | sudo bash
+   cd rosbot-telepresence/ # remember to run all "just" commands in the repo root folder
+   export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
+   just connect-husarnet $JOINCODE my-laptop
    ```
-
-   and connect to the Husarnet network with:
-
+3. Run in the linux terminal of your ROSbot:
    ```bash
-   sudo husarnet join <paste-join-code-here>
+   export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
+   sudo husarnet join $JOINCODE rosbot2r
    ```
+   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change
+   > ```bash
+   > ROBOT_NAMESPACE=rosbot2r
+   > ```
 
-3. Connect your ROSbot to the Husarnet network. Husarnet is already pre-installed so just run:
+### 📡 Step 2: Sync
 
-   ```bash
-   sudo husarnet join <paste-join-code-here> rosbot2r
-   ```
-
-### 📁 Step 2: Clonning the Repo
-
-This repository contains the Docker Compose setup for ROSbot.
-
-SSH to ROSbot first:
+If you have cloned this repo not on the robot but on your PC, you need to copy the local changes (on PC) to the remote ROSbot
 
 ```bash
-ssh husarion@rosbot2r # if rosbot2r is Husarnet hostname you assigned for ROSbot in the Step 1
+just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3 
 ```
 
-And inside ROSbot's shell execute:
+> you can skip this step if you have cloned this repo on the ROSbot directly
 
-```bash
-git clone -b foxglove https://github.com/husarion/rosbot-telepresence
-cd rosbot-telepresence/
-```
-
-Pull all needed Docker images:
-
-```bash
-docker compose pull
-```
-
-### ⚙️ Step 4: Flashing the ROSbot Firmware
+### ⚙️ Step 3: Flashing the ROSbot Firmware
 
 Execute in the ROSbot's shell:
 
 ```bash
-./flash_rosbot_firmware.sh
+just flash-firmware
 ```
 
-### 🤖 Step 5: Launching
+### 🤖 Step 4: Launching
 
 Execute in the ROSbot's shell:
 
 ```bash
-docker compose up
+just start-rosbot
 ```
 
 ### 💻 Step 5: Open the web UI
