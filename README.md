@@ -46,10 +46,6 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    sudo husarnet join $JOINCODE rosbot2r
    ```
-   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change
-   > ```bash
-   > ROBOT_NAMESPACE=rosbot2r
-   > ```
 
 ### 📡 Step 2: Sync
 
