@@ -1,6 +1,6 @@
 # rosbot-telepresence
 
-Manual ROSbot Driving over the Internet with Real-Time Camera Feed
+Operating a ROSbot Manually via the Internet with a Real-Time Camera Feed on a Web User Interface.
 
 ![foxglove UI](.docs/foxglove-ui.png)
 
