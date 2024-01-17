@@ -77,10 +77,11 @@ flash-firmware: _install-yq
 start-rosbot:
     #!/bin/bash
     if [[ "{{arch()}}" == "aarch64" ]]; then \
-        docker compose up; \
+        echo "Starting containers on ROSbot 2R (ARM64 architecture)."; \
     else \
-        echo "This command can be run only on ROSbot 2R / 2 PRO."; \
+        echo "Starting containers on ROSbot 2 PRO (AMD64 architecture)."; \
     fi
+    docker compose up
 
 # copy repo content to remote host with 'rsync' and watch for changes
 sync hostname password="husarion": _install-rsync
