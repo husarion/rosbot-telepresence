@@ -106,10 +106,12 @@ run-teleop:
 
 # run teleop_twist_keybaord (inside rviz2 container)
 run-teleop-docker:
+    #!/bin/bash
     docker compose -f compose.pc.yaml exec rviz /bin/bash -c "/ros_entrypoint.sh ros2 run teleop_twist_keyboard teleop_twist_keyboard --ros-args -r __ns:=/${ROBOT_NAMESPACE}"
 
 # enable the F710 gemapad (connected to your PC) to control ROSbot
 run-joy:
+    #!/bin/bash
     trap 'docker compose -f compose.pc.yaml down joy2twist' SIGINT # Remove containers after CTRL+C
     docker compose -f compose.pc.yaml up joy2twist
 
