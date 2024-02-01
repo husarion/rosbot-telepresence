@@ -56,21 +56,23 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
    sudo husarnet join $JOINCODE rosbot2r
    ```
 
-   > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change
-   >
-   > ```bash
-   > ROBOT_NAMESPACE=rosbot2r
-   > ```
+> [!NOTE]
+> That `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change
+>
+> ```bash
+> ROBOT_NAMESPACE=rosbot2r
+> ```
 
 ### 📡 Step 2: Sync
 
 Copy the local changes (on PC) to the remote ROSbot
 
 ```bash
-just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3
+just sync
 ```
 
-Now you should find `/home/husarion/rosbot-telepresence` folder on your ROSbot's file system.
+> [!NOTE]
+> This `just sync` automatically sync to device described by `ROBOT_NAMESPACE` inside `.env` file. Script locks the terminal and synchronizes online all changes made locally on the robot.
 
 ### 💻 Step 3: Launching the Control Interface on PC
 
