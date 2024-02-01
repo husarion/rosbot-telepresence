@@ -82,8 +82,8 @@ flash-firmware: _install-yq
 # start containers on ROSbot 2R / 2 PRO
 start-rosbot:
     #!/bin/bash
+    trap 'docker compose down' SIGINT # Remove containers after CTRL+C
     if [[ $USER == "husarion" ]]; then \
-        docker compose down; \
         docker compose pull; \
         docker compose up; \
     else \
@@ -92,8 +92,9 @@ start-rosbot:
 
 # start containers on PC
 start-pc:
+    #!/bin/bash
     xhost +local:docker
-    docker compose -f compose.pc.yaml down
+    trap 'docker compose -f compose.pc.yaml down rviz ros2router' SIGINT # Remove containers after CTRL+C
     docker compose -f compose.pc.yaml pull
     docker compose -f compose.pc.yaml up rviz ros2router
 
@@ -109,6 +110,7 @@ run-teleop-docker:
 
 # enable the F710 gemapad (connected to your PC) to control ROSbot
 run-joy:
+    trap 'docker compose -f compose.pc.yaml down joy2twist' SIGINT # Remove containers after CTRL+C
     docker compose -f compose.pc.yaml up joy2twist
 
 # copy repo content to remote host with 'rsync' and watch for changes
