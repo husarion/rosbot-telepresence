@@ -5,6 +5,7 @@ Operating a ROSbot Manually via the Internet with a Real-Time Camera Feed on a W
 ![foxglove UI](.docs/foxglove-ui.png)
 
 There are two different setups on two separate branches:
+
 - [**ros2router**](https://github.com/husarion/rosbot-telepresence/tree/ros2router)
 - [**foxglove**](https://github.com/husarion/rosbot-telepresence/tree/foxglove) (the current one)
 
@@ -15,7 +16,7 @@ There are two different setups on two separate branches:
 >
 > Install it with:
 >
-> ```
+> ```bash
 > curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/bin
 > ```
 
@@ -35,13 +36,17 @@ Available recipes:
 Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the same Husarnet VPN network. If they are not follow these steps:
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
+
 2. Run in the linux terminal on your PC:
+
    ```bash
    cd rosbot-telepresence/ # remember to run all "just" commands in the repo root folder
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    just connect-husarnet $JOINCODE my-laptop
    ```
+
 3. Run in the linux terminal of your ROSbot:
+
    ```bash
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    sudo husarnet join $JOINCODE rosbot2r
@@ -52,7 +57,7 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
 If you have cloned this repo not on the robot but on your PC, you need to copy the local changes (on PC) to the remote ROSbot
 
 ```bash
-just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3 
+just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3
 ```
 
 > you can skip this step if you have cloned this repo on the ROSbot directly
@@ -77,7 +82,7 @@ just start-rosbot
 
 Open the **Google Chrome** browser on your laptop and navigate to:
 
-http://rosbot2r:8080/ui
+<http://rosbot2r:8080/ui>
 
 ![foxglove UI](.docs/foxglove-ui.png)
 

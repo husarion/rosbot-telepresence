@@ -17,7 +17,7 @@ _install-rsync:
     #!/bin/bash
     if ! command -v rsync &> /dev/null; then \
         if [ "$EUID" -ne 0 ]; then \
-            echo "Please run as root to install dependencies"; \
+            echo -e "\e[93mPlease run as root to install dependencies\e[0m"; \
             exit 1; \
         fi
 
@@ -28,7 +28,7 @@ _install-yq:
     #!/bin/bash
     if ! command -v /usr/bin/yq &> /dev/null; then \
         if [ "$EUID" -ne 0 ]; then \
-            echo "Please run as root to install dependencies"; \
+            echo -e "\e[93mPlease run as root to install dependencies\e[0m"; \
             exit 1; \
         fi
 
@@ -52,7 +52,7 @@ _install-yq:
 connect-husarnet joincode hostname:
     #!/bin/bash
     if [ "$EUID" -ne 0 ]; then \
-        echo "Please run as root"; \
+        echo -e "\e[93mPlease run as root to install Husarnet\e[0m"; \
         exit; \
     fi
     if ! command -v husarnet > /dev/null; then \
@@ -65,7 +65,7 @@ connect-husarnet joincode hostname:
 flash-firmware: _install-yq
     #!/bin/bash
     echo "Stopping all running containers"
-    docker ps -q | xargs -r docker stop
+    docker stop $(docker ps -q -a)
 
     echo "Flashing the firmware for STM32 microcontroller in ROSbot"
     docker run \
@@ -76,12 +76,14 @@ flash-firmware: _install-yq
 # start containers on ROSbot 2R / 2 PRO
 start-rosbot:
     #!/bin/bash
-    if [[ "{{arch()}}" == "aarch64" ]]; then \
-        echo "Starting containers on ROSbot 2R (ARM64 architecture)."; \
+    trap 'docker compose down' SIGINT # Remove containers after CTRL+C
+    if [[ $USER == "husarion" ]]; then \
+        docker compose pull; \
+        docker compose up; \
     else \
-        echo "Starting containers on ROSbot 2 PRO (AMD64 architecture)."; \
+        echo "This command can be run only on ROSbot 2R / 2 PRO."; \
     fi
-    docker compose up
+
 
 # copy repo content to remote host with 'rsync' and watch for changes
 sync hostname password="husarion": _install-rsync
