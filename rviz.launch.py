@@ -6,7 +6,6 @@ from launch.substitutions import EnvironmentVariable, LaunchConfiguration
 
 def launch_setup(context, *args, **kwargs):
     robot_namespace = LaunchConfiguration("robot_namespace").perform(context)
-    device_namespace = LaunchConfiguration("device_namespace").perform(context)
 
     tf_remap = []
     if robot_namespace:
@@ -41,11 +40,6 @@ def generate_launch_description():
                 "robot_namespace",
                 default_value=EnvironmentVariable("ROBOT_NAMESPACE", default_value=""),
                 description="Namespace which will appear in front of all topics (including /tf and /tf_static).",
-            ),
-            DeclareLaunchArgument(
-                "device_namespace",
-                default_value="camera",
-                description="Sensor namespace that will appear after all topics and TF frames, used for distinguishing multiple cameras on the same robot.",
             ),
             OpaqueFunction(function=launch_setup),
         ]

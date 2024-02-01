@@ -59,4 +59,3 @@ services:
     command: >
       ros2 launch /husarion_utils/astra.launch.py
         robot_namespace:=${ROBOT_NAMESPACE:-robot}
-        device_namespace:=camera
