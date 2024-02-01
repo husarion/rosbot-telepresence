@@ -1,4 +1,4 @@
-set dotenv-load
+set dotenv-load # to read ROBOT_NAMESPACE from .env file
 
 [private]
 alias husarnet := connect-husarnet
@@ -82,8 +82,8 @@ flash-firmware: _install-yq
 # start containers on ROSbot 2R / 2 PRO
 start-rosbot:
     #!/bin/bash
-    trap 'docker compose down' SIGINT # Remove containers after CTRL+C
     if [[ $USER == "husarion" ]]; then \
+        trap 'docker compose down' SIGINT # Remove containers after CTRL+C
         docker compose pull; \
         docker compose up; \
     else \
@@ -116,7 +116,7 @@ run-joy:
     docker compose -f compose.pc.yaml up joy2twist
 
 # copy repo content to remote host with 'rsync' and watch for changes
-sync hostname password="husarion": _install-rsync
+sync hostname="${ROBOT_NAMESPACE}" password="husarion":  _install-rsync
     #!/bin/bash
     sshpass -p "husarion" rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
     while inotifywait -r -e modify,create,delete,move ./ ; do
