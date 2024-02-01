@@ -1,22 +1,52 @@
 from launch import LaunchDescription
-from launch_ros.actions import Node
+from launch_ros.actions import Node, PushRosNamespace
+from launch.actions import DeclareLaunchArgument, OpaqueFunction
+from launch.substitutions import EnvironmentVariable, LaunchConfiguration
 
-def generate_launch_description():
-    return LaunchDescription([
-        # Launch RViz2 with a default configuration
-        Node(
-            package='rviz2',
-            executable='rviz2',
-            name='rviz2',
-            arguments=['-d', '/default.rviz'],
-            output='screen'
-        ),
-        # Launch image_transport to republish images
-        Node(
+
+def launch_setup(context, *args, **kwargs):
+    robot_namespace = LaunchConfiguration("robot_namespace").perform(context)
+    device_namespace = LaunchConfiguration("device_namespace").perform(context)
+
+    tf_remap = []
+    if robot_namespace:
+        tf_remap.append(("/tf", f"/{robot_namespace}/tf"))
+        tf_remap.append(("/tf_static", f"/{robot_namespace}/tf_static"))
+
+    rviz = Node(
+        package="rviz2",
+        executable="rviz2",
+        name="rviz2",
+        arguments=['-d', '/default.rviz'],
+        remappings=tf_remap,
+        output="screen",
+    )
+
+    decoder = Node(
             package='image_transport',
             executable='republish',
             name='republish',
-            arguments=['ffmpeg', 'in/ffmpeg:=/rosbot2r/camera/color/image_raw/ffmpeg', 'raw', 'out:=/image_raw/uncompressed'],
+            arguments=['ffmpeg', 'in/ffmpeg:=camera/color/image_raw/ffmpeg', 'raw', 'out:=camera/color/image_uncompressed'],
+            remappings=tf_remap,
             output='screen'
-        ),
-    ])
+        )
+
+    return [PushRosNamespace(robot_namespace), rviz, decoder]
+
+
+def generate_launch_description():
+    return LaunchDescription(
+        [
+            DeclareLaunchArgument(
+                "robot_namespace",
+                default_value=EnvironmentVariable("ROBOT_NAMESPACE", default_value=""),
+                description="Namespace which will appear in front of all topics (including /tf and /tf_static).",
+            ),
+            DeclareLaunchArgument(
+                "device_namespace",
+                default_value="camera",
+                description="Sensor namespace that will appear after all topics and TF frames, used for distinguishing multiple cameras on the same robot.",
+            ),
+            OpaqueFunction(function=launch_setup),
+        ]
+    )
