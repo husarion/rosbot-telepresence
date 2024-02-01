@@ -16,7 +16,7 @@ There are two different setups on two separate branches:
 >
 > Install it with:
 >
-> ```
+> ```bash
 > curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | sudo bash -s -- --to /usr/bin
 > ```
 
@@ -40,18 +40,24 @@ Available recipes:
 Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the same Husarnet VPN network. If they are not follow these steps:
 
 1. Setup a free account at [app.husarnet.com](https://app.husarnet.com/), create a new Husarnet network, click the **[Add element]** button and copy the code from the **Join Code** tab.
+
 2. Run in the linux terminal on your PC:
+
    ```bash
    cd rosbot-telepresence/ # remember to run all "just" commands in the repo root folder
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    just connect-husarnet $JOINCODE my-laptop
    ```
+
 3. Run in the linux terminal of your ROSbot:
+
    ```bash
    export JOINCODE=<PASTE_YOUR_JOIN_CODE_HERE>
    sudo husarnet join $JOINCODE rosbot2r
    ```
+
    > note that `rosbot2r` is a default ROSbot hostname used in this project. If you want to change it, edit the `.env` file and change
+   >
    > ```bash
    > ROBOT_NAMESPACE=rosbot2r
    > ```
@@ -61,7 +67,7 @@ Ensure that both ROSbot 2R (or ROSbot 2 PRO) and your laptop are linked to the s
 Copy the local changes (on PC) to the remote ROSbot
 
 ```bash
-just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3 
+just sync rosbot2r # or a different ROSbot hostname you used in Step 1 p.3
 ```
 
 Now you should find `/home/husarion/rosbot-telepresence` folder on your ROSbot's file system.
@@ -84,10 +90,9 @@ just run-teleop-docker
 
 ### 🤖 Step 4: Launching the Containers on ROSbot
 
-> 
 > Execute the commands below in the ROSbot's shell (you can access it with `ssh husarion@rosbot2r`)
 
-Flash the right version of the firmware:
+Inside `rosbot-telepresence` run below command to flash the right version of the firmware:
 
 ```bash
 just flash-firmware
@@ -144,7 +149,7 @@ sudo sysctl -w net.ipv6.ip6frag_high_thresh=134217728 # (128 MB)
 
 ## Troubleshooting
 
-###  `Packet was not a Theora header` warning
+### `Packet was not a Theora header` warning
 
 The log from your computer where you launched `compose.pc.yaml` may contain the following message:
 

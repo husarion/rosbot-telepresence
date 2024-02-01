@@ -34,23 +34,22 @@ services:
       # - HUSARNET_PARTICIPANT_ENABLED=false
 
   rosbot:
-    image: husarion/rosbot:humble-0.12.0-20240104
-    <<: 
+    image: husarion/rosbot:humble-0.13.0-20240115
+    <<:
       - *common-config
       - *ros-envs
     devices:
       - ${SERIAL_PORT:?err}
       # - /dev/bus/usb/ # FTDI
     command: >
-      ros2 launch rosbot_bringup combined.launch.py 
+      ros2 launch rosbot_bringup combined.launch.py
         mecanum:=${MECANUM:-False}
-        serial_port:=$SERIAL_PORT 
-        namespace:=${ROBOT_NAMESPACE:-robot}
+        serial_port:=$SERIAL_PORT
         serial_baudrate:=576000
-        
+
   astra:
     image: husarion/astra:humble-1.1.0-20240111
-    <<: 
+    <<:
       - *common-config
       - *ros-envs
     devices:
