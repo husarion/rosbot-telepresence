@@ -65,7 +65,7 @@ connect-husarnet joincode hostname:
 flash-firmware: _install-yq
     #!/bin/bash
     echo "Stopping all running containers"
-    docker stop $(docker ps -q -a)
+    docker ps -q | xargs -r docker stop
 
     echo "Flashing the firmware for STM32 microcontroller in ROSbot"
     docker run \
