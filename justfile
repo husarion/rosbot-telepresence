@@ -67,9 +67,17 @@ flash-firmware: _install-yq
     echo "Stopping all running containers"
     docker ps -q | xargs -r docker stop
 
+    if grep -q "Raspberry Pi" /proc/cpuinfo; then
+        echo "Setting up Raspberry Pi GPIO Port"
+        gpio_chip=/dev/gpiochip0
+        serial_port=/dev/ttyAMA0
+    elif grep -q "Intel(R) Atom(TM) x5-Z8350" /proc/cpuinfo; then
+        echo "Setting up UpBoard GPIO Port"
+        gpio_chip=/dev/gpiochip4
+        serial_port=/dev/ttyS4
+    fi
     echo "Flashing the firmware for STM32 microcontroller in ROSbot"
-    docker run \
-        --rm -it --privileged \
+    docker run --rm -it --device $gpio_chip --device $serial_port \
         $(yq .services.rosbot.image compose.yaml) \
         ros2 run rosbot_utils flash_firmware
 
@@ -88,7 +96,12 @@ start-rosbot:
 # copy repo content to remote host with 'rsync' and watch for changes
 sync hostname="${ROBOT_NAMESPACE}" password="husarion":  _install-rsync
     #!/bin/bash
-    sshpass -p "husarion" rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
-    while inotifywait -r -e modify,create,delete,move ./ ; do
-        sshpass -p "{{password}}" rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
-    done
+    if ping -c 1 -W 3 {{hostname}} > /dev/null; then
+        sshpass -p {{password}} rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+        while inotifywait -r -e modify,create,delete,move ./ ; do
+            sshpass -p "{{password}}" rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+        done
+    else
+        echo -e "\e[93mUnable to reach the device or encountering a network issue. Verify the availability of your device in the Husarnet Network at https://app.husarnet.com/.\e[0m"; \
+    fi
+
