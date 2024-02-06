@@ -34,7 +34,7 @@ services:
       # - HUSARNET_PARTICIPANT_ENABLED=false
 
   rosbot:
-    image: husarion/rosbot:humble-0.13.0-20240115
+    image: husarion/rosbot:humble-0.13.1-20240201
     <<:
       - *common-config
       - *ros-envs
