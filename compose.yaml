@@ -1,7 +1,7 @@
 services:
 
   foxglove:
-    image: husarion/foxglove:1.83.0
+    image: husarion/foxglove:1.84.0
     restart: unless-stopped
     ports:
       - 8080:8080
@@ -30,7 +30,7 @@ services:
     command: ros2 launch foxglove_bridge foxglove_bridge_launch.xml port:=8765 capabilities:=[clientPublish,parameters,parametersSubscribe,services,connectionGraph,assets]
 
   rosbot:
-    image: husarion/rosbot:humble-0.12.0-20240104
+    image: husarion/rosbot:humble-0.13.1-20240201
     restart: unless-stopped
     devices:
       - ${SERIAL_PORT:?err}

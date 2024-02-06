@@ -1,4 +1,8 @@
-set dotenv-load
+set dotenv-load # to read ROBOT_NAMESPACE from .env file
+
+[private]
+default:
+    @just --list --unsorted
 
 [private]
 alias husarnet := connect-husarnet
@@ -10,83 +14,113 @@ alias rosbot := start-rosbot
 alias start := start-rosbot
 
 [private]
-default:
-  @just --list --unsorted
+pre-commit:
+    #!/bin/bash
+    if ! command -v pre-commit &> /dev/null; then
+        pip install pre-commit
+        pre-commit install
+    fi
+    pre-commit run -a
+
+# connect to Husarnet VPN network
+connect-husarnet joincode hostname: _run-as-root
+    #!/bin/bash
+    if ! command -v husarnet > /dev/null; then
+        echo "Husarnet is not installed. Installing now..."
+        curl https://install.husarnet.com/install.sh | bash
+    fi
+    husarnet join {{joincode}} {{hostname}}
+
+# flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
+flash-firmware: _install-yq _run-as-user
+    #!/bin/bash
+    echo "Stopping all running containers"
+    docker ps -q | xargs -r docker stop
+
+    if grep -q "Raspberry Pi" /proc/cpuinfo; then
+        echo "Setting up Raspberry Pi GPIO Port"
+        gpio_chip=/dev/gpiochip0
+        serial_port=/dev/ttyAMA0
+    elif grep -q "Intel(R) Atom(TM) x5-Z8350" /proc/cpuinfo; then
+        echo "Setting up UpBoard GPIO Port"
+        gpio_chip=/dev/gpiochip4
+        serial_port=/dev/ttyS4
+    fi
+
+    echo "Flashing the firmware for STM32 microcontroller in ROSbot"
+    docker run --rm -it \
+        --device $gpio_chip \
+        --device $serial_port \
+        $(yq .services.rosbot.image compose.yaml) \
+        ros2 run rosbot_utils flash_firmware
+
+# start containers on ROSbot 2R / 2 PRO
+start-rosbot: _run-as-user
+    #!/bin/bash
+    if [[ "$SBC_NAME" == "RPI4" ]] || [[ "$SBC_NAME" == "UPBOARD" ]] || [[ "$USER" == "husarion" ]]; then
+        trap 'docker compose down' SIGINT # Remove containers after CTRL+C
+        docker compose pull
+        docker compose up
+    else
+        echo "This command can be run only on ROSbot 2R / 2 PRO."
+    fi
+
+# copy repo content to remote host with 'rsync' and watch for changes
+sync hostname="${ROBOT_NAMESPACE}" password="husarion": _install-rsync _run-as-user
+    #!/bin/bash
+    if ping -c 1 -W 3 {{hostname}} > /dev/null; then
+        sshpass -p {{password}} rsync -vRr --exclude='.git/' --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+        while inotifywait -r -e modify,create,delete,move ./ ; do
+            sshpass -p "{{password}}" rsync --exclude='.git/' -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
+        done
+    else
+        echo -e "\e[93mUnable to reach the device or encountering a network issue. Verify the availability of your device in the Husarnet Network at https://app.husarnet.com/.\e[0m"; \
+    fi
+
+_run-as-root:
+    #!/bin/bash
+    if [ "$EUID" -ne 0 ]; then
+        echo -e "\e[1;33mPlease re-run as root user to install dependencies\e[0m"
+        exit 1
+    fi
+
+_run-as-user:
+    #!/bin/bash
+    if [ "$EUID" -eq 0 ]; then
+        echo -e "\e[1;33mPlease re-run as non-root user\e[0m"
+        exit 1
+    fi
 
 _install-rsync:
     #!/bin/bash
-    if ! command -v rsync &> /dev/null; then \
-        if [ "$EUID" -ne 0 ]; then \
-            echo "Please run as root to install dependencies"; \
-            exit 1; \
+    if ! command -v rsync &> /dev/null || ! command -v sshpass &> /dev/null || ! command -v inotifywait &> /dev/null; then
+        if [ "$EUID" -ne 0 ]; then
+            echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
+            exit 1
         fi
-
-        sudo apt update && sudo apt install -y rsync
+        apt install -y rsync sshpass inotify-tools
     fi
 
 _install-yq:
     #!/bin/bash
-    if ! command -v /usr/bin/yq &> /dev/null; then \
-        if [ "$EUID" -ne 0 ]; then \
-            echo "Please run as root to install dependencies"; \
-            exit 1; \
+    if ! command -v /usr/bin/yq &> /dev/null; then
+        if [ "$EUID" -ne 0 ]; then
+            echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
+            exit 1
         fi
 
         YQ_VERSION=v4.35.1
         ARCH=$(arch)
 
-        if [ "$ARCH" = "x86_64" ]; then \
-            YQ_ARCH="amd64"; \
-        elif [ "$ARCH" = "aarch64" ]; then \
-            YQ_ARCH="arm64"; \
-        else \
-            YQ_ARCH="$ARCH"; \
+        if [ "$ARCH" = "x86_64" ]; then
+            YQ_ARCH="amd64"
+        elif [ "$ARCH" = "aarch64" ]; then
+            YQ_ARCH="arm64"
+        else
+            YQ_ARCH="$ARCH"
         fi
 
         curl -L https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_${YQ_ARCH} -o /usr/bin/yq
         chmod +x /usr/bin/yq
         echo "yq installed successfully!"
     fi
-
-# connect to Husarnet VPN network
-connect-husarnet joincode hostname:
-    #!/bin/bash
-    if [ "$EUID" -ne 0 ]; then \
-        echo "Please run as root"; \
-        exit; \
-    fi
-    if ! command -v husarnet > /dev/null; then \
-        echo "Husarnet is not installed. Installing now..."; \
-        curl https://install.husarnet.com/install.sh | sudo bash; \
-    fi
-    husarnet join {{joincode}} {{hostname}}
-
-# flash the proper firmware for STM32 microcontroller in ROSbot 2R / 2 PRO
-flash-firmware: _install-yq
-    #!/bin/bash
-    echo "Stopping all running containers"
-    docker ps -q | xargs -r docker stop
-
-    echo "Flashing the firmware for STM32 microcontroller in ROSbot"
-    docker run \
-        --rm -it --privileged \
-        $(yq .services.rosbot.image compose.yaml) \
-        ros2 run rosbot_utils flash_firmware
-
-# start containers on ROSbot 2R / 2 PRO
-start-rosbot:
-    #!/bin/bash
-    if [[ "{{arch()}}" == "aarch64" ]]; then \
-        echo "Starting containers on ROSbot 2R (ARM64 architecture)."; \
-    else \
-        echo "Starting containers on ROSbot 2 PRO (AMD64 architecture)."; \
-    fi
-    docker compose up
-
-# copy repo content to remote host with 'rsync' and watch for changes
-sync hostname password="husarion": _install-rsync
-    #!/bin/bash
-    sshpass -p "husarion" rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
-    while inotifywait -r -e modify,create,delete,move ./ ; do
-        sshpass -p "{{password}}" rsync -vRr --delete ./ husarion@{{hostname}}:/home/husarion/${PWD##*/}
-    done
