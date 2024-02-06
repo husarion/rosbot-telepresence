@@ -16,19 +16,24 @@ def launch_setup(context, *args, **kwargs):
         package="rviz2",
         executable="rviz2",
         name="rviz2",
-        arguments=['-d', '/default.rviz'],
+        arguments=["-d", "/default.rviz"],
         remappings=tf_remap,
         output="screen",
     )
 
     decoder = Node(
-            package='image_transport',
-            executable='republish',
-            name='republish',
-            arguments=['ffmpeg', 'in/ffmpeg:=camera/color/image_raw/ffmpeg', 'raw', 'out:=camera/color/image_uncompressed'],
-            remappings=tf_remap,
-            output='screen'
-        )
+        package="image_transport",
+        executable="republish",
+        name="republish",
+        arguments=[
+            "ffmpeg",
+            "in/ffmpeg:=camera/color/image_raw/ffmpeg",
+            "raw",
+            "out:=camera/color/image_uncompressed",
+        ],
+        remappings=tf_remap,
+        output="screen",
+    )
 
     return [PushRosNamespace(robot_namespace), rviz, decoder]
 

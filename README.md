@@ -32,7 +32,7 @@ Available recipes:
     run-teleop        # run teleop_twist_keybaord (host)
     run-teleop-docker # run teleop_twist_keybaord (inside rviz2 container)
     run-joy           # enable the F710 gemapad (connected to your PC) to control ROSbot
-    sync hostname password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
+    sync hostname="${ROBOT_NAMESPACE}" password="husarion" # copy repo content to remote host with 'rsync' and watch for changes
 ```
 
 ### 🌎 Step 1: Connecting ROSbot and Laptop over VPN

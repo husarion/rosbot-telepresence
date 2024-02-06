@@ -4,21 +4,9 @@ x-common-config:
   ipc: host
   restart: unless-stopped
 
-x-cpu-config:
-  &cpu-config
-  env_file: .env.cpu
-
-x-gpu-config:
-  &gpu-config
-  runtime: nvidia
-  env_file: .env.gpu
-
-x-ros-envs:
-  &ros-envs
-  environment:
-    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
-    - ROBOT_NAMESPACE=${ROBOT_NAMESPACE:-robot}
-    - USER
+x-dds-envs:
+  &dds-envs
+  env_file: .env.dds
 
 services:
 
@@ -42,19 +30,25 @@ services:
     image: husarion/rviz2:humble-11.2.9-20240111
     <<:
       - *common-config
-      - *ros-envs
-      - *cpu-config
+      - *dds-envs
+    runtime: ${DOCKER_RUNTIME:-runc}
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - ./params/default.rviz:/default.rviz
       - ./rviz.launch.py:/rviz.launch.py
+    environment:
+      - DISPLAY=${DISPLAY:?err}
+      - LIBGL_ALWAYS_SOFTWARE=${LIBGL_ALWAYS_SOFTWARE:-1}
+      - NVIDIA_VISIBLE_DEVICES=all # if LIBGL_ALWAYS_SOFTWARE=1 this env var is ignored
+      - NVIDIA_DRIVER_CAPABILITIES=all # if LIBGL_ALWAYS_SOFTWARE=1 this env var is ignored
+      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE:-robot}
     command: ros2 launch /rviz.launch.py
 
   joy2twist:
     image: husarion/joy2twist:humble-1.0.0-20240105
     <<:
       - *common-config
-      - *ros-envs
+      - *dds-envs
     devices:
       - /dev/input
     volumes:

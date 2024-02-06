@@ -4,12 +4,9 @@ x-common-config:
   ipc: host
   restart: unless-stopped
 
-x-ros-envs:
-  &ros-envs
-  environment:
-    - FASTRTPS_DEFAULT_PROFILES_FILE=/shm-only.xml
-    - ROBOT_NAMESPACE=${ROBOT_NAMESPACE:-robot}
-    - USER
+x-dds-envs:
+  &dds-envs
+  env_file: .env.dds
 
 services:
 
@@ -37,10 +34,12 @@ services:
     image: husarion/rosbot:humble-0.13.1-20240201
     <<:
       - *common-config
-      - *ros-envs
+      - *dds-envs
     devices:
       - ${SERIAL_PORT:?err}
       # - /dev/bus/usb/ # FTDI
+    environment:
+      - ROBOT_NAMESPACE=${ROBOT_NAMESPACE:-robot}
     command: >
       ros2 launch rosbot_bringup combined.launch.py
         mecanum:=${MECANUM:-False}
@@ -51,7 +50,7 @@ services:
     image: husarion/astra:humble-1.1.0-20240111
     <<:
       - *common-config
-      - *ros-envs
+      - *dds-envs
     devices:
       - /dev/bus/usb/
     volumes:
