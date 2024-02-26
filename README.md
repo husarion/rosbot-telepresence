@@ -97,7 +97,7 @@ just run-teleop-docker
 Inside `rosbot-telepresence` run below command to flash the right version of the firmware:
 
 ```bash
-just flash-firmware
+sudo just flash-firmware
 ```
 
 And run the containers
