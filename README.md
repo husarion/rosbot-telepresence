@@ -1,13 +1,22 @@
 # rosbot-telepresence
 
-Operating a ROSbot Manually via the Internet with a Real-Time Camera Feed on a Web User Interface.
+Operating a ROSbot manually via the Internet with a real-tme camera feed over a web user interface.
 
 ![foxglove UI](.docs/foxglove-ui.png)
 
-There are two different setups on two separate branches:
+> [!NOTE]
+> There are two setups on two separate branches available
+> | branch name | description |
+> | - | - |
+> | [**ros2router**](https://github.com/husarion/rosbot-telepresence/tree/ros2router) | Running ROS 2 containers on ROSbot and on PC with the interface in RViz |
+> | [**foxglove**](https://github.com/husarion/rosbot-telepresence/tree/foxglove) (the current one) | Running ROS 2 containers only on ROSbot with a web user interface powered by Foxglove |
 
-- [**ros2router**](https://github.com/husarion/rosbot-telepresence/tree/ros2router)
-- [**foxglove**](https://github.com/husarion/rosbot-telepresence/tree/foxglove) (the current one)
+## 🛍️ Necessary Hardware
+
+For the execution of this project **[ROSbot 2R or ROSbot 2 PRO](https://husarion.com/manuals/rosbot/)** is required. 
+
+You can find it at [our online store](https://store.husarion.com/collections/robots/products/rosbot).
+
 
 ## Quick start
 
