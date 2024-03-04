@@ -81,14 +81,14 @@ _run-as-root:
     #!/bin/bash
     if [ "$EUID" -ne 0 ]; then
         echo -e "\e[1;33mPlease re-run as root user to install dependencies\e[0m"
-        exit 1
+        exit 0
     fi
 
 _run-as-user:
     #!/bin/bash
     if [ "$EUID" -eq 0 ]; then
         echo -e "\e[1;33mPlease re-run as non-root user\e[0m"
-        exit 1
+        exit 0
     fi
 
 _install-rsync:
@@ -96,7 +96,6 @@ _install-rsync:
     if ! command -v rsync &> /dev/null || ! command -v sshpass &> /dev/null || ! command -v inotifywait &> /dev/null; then
         if [ "$EUID" -ne 0 ]; then
             echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
-            exit 1
         fi
         apt install -y rsync sshpass inotify-tools
     fi
@@ -106,7 +105,7 @@ _install-yq:
     if ! command -v /usr/bin/yq &> /dev/null; then
         if [ "$EUID" -ne 0 ]; then
             echo -e "\e[1;33mPlease run as root to install dependencies\e[0m"
-            exit 1
+            exit 0
         fi
 
         YQ_VERSION=v4.35.1
